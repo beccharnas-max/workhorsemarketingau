@@ -8,6 +8,7 @@ import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
 
 const PINK = "#d01c61ff";
+const SERVICES_TEXT_COLOR = "#FCE4EE";
 
 
 export default function Home() {
@@ -19,8 +20,8 @@ export default function Home() {
       if (!heroRef.current) return;
       const heroH = heroRef.current.offsetHeight;
       const scrolled = window.scrollY;
-      const fadeStart = heroH * 0.4;
-      const fadeEnd = heroH * 0.95;
+      const fadeStart = 0;
+      const fadeEnd = heroH * 0.85;
       if (scrolled <= fadeStart) setScrollProgress(0);
       else if (scrolled >= fadeEnd) setScrollProgress(1);
       else setScrollProgress((scrolled - fadeStart) / (fadeEnd - fadeStart));
@@ -174,9 +175,9 @@ export default function Home() {
             <ellipse cx="700" cy="145" rx="110" ry="88" fill="#d01c61ff" />
             <ellipse cx="768" cy="188" rx="68" ry="48" fill="#d01c61ff" />
             {/* foreground rows clipped to blobs */}
-            <text y="78"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
-            <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
-            <text y="246" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
+            <text y="78"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
+            <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
+            <text y="246" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
           </svg>
         </motion.div>
 
