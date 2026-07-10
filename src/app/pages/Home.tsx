@@ -7,7 +7,7 @@ import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
 
-const PINK = "#d62468ff";
+const PINK = "#E86B9A";
 
 
 export default function Home() {
@@ -252,42 +252,53 @@ export default function Home() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: EASE }}
           viewport={{ once: true, amount: 0.2 }}
-          style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", gap: "3rem", justifyContent: "center", alignItems: "center" }}
+          style={{ maxWidth: "1100px", margin: "0 auto", position: "relative", height: "clamp(480px, 62vw, 760px)" }}
         >
-          {/* Blob 1 */}
+          {/* Blob 1 — large, upper left */}
           <div style={{
-            flex: "1 1 0",
-            minWidth: 0,
-            height: "clamp(240px, 35vw, 480px)",
-            borderRadius: HERO_BLOB,
+            position: "absolute",
+            top: "0%",
+            left: "0%",
+            width: "56%",
+            height: "62%",
+            borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%",
             overflow: "hidden",
-            position: "relative",
+            transform: "rotate(-3deg)",
+            boxShadow: "0 24px 60px rgba(0,0,0,0.12)",
           }}>
-            <img src={image1} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+            <img src={image1} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(3deg) scale(1.12)" }} />
           </div>
 
-          {/* Blob 2 */}
+          {/* Blob 2 — medium, right side, overlapping blob 1 */}
           <div style={{
-            flex: "1 1 0",
-            minWidth: 0,
-            height: "clamp(240px, 35vw, 480px)",
-            borderRadius: HERO_BLOB,
+            position: "absolute",
+            top: "6%",
+            right: "2%",
+            width: "42%",
+            height: "46%",
+            borderRadius: "38% 62% 40% 60% / 62% 45% 55% 38%",
             overflow: "hidden",
-            position: "relative",
+            transform: "rotate(5deg)",
+            zIndex: 2,
+            boxShadow: "0 24px 60px rgba(0,0,0,0.12)",
           }}>
-            <img src={image2} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+            <img src={image2} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(-5deg) scale(1.15)" }} />
           </div>
 
-          {/* Blob 3 */}
+          {/* Blob 3 — small, bottom, overlapping both */}
           <div style={{
-            flex: "1 1 0",
-            minWidth: 0,
-            height: "clamp(240px, 35vw, 480px)",
-            borderRadius: HERO_BLOB,
+            position: "absolute",
+            bottom: "0%",
+            left: "30%",
+            width: "38%",
+            height: "42%",
+            borderRadius: "63% 37% 46% 54% / 48% 40% 60% 52%",
             overflow: "hidden",
-            position: "relative",
+            transform: "rotate(-6deg)",
+            zIndex: 3,
+            boxShadow: "0 24px 60px rgba(0,0,0,0.14)",
           }}>
-            <img src={image3} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+            <img src={image3} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(6deg) scale(1.18)" }} />
           </div>
         </motion.div>
       </section>
