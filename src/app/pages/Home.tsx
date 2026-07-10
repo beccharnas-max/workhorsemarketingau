@@ -105,10 +105,10 @@ export default function Home() {
             Who We Are
           </p>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2rem,4.5vw,3.2rem)", lineHeight: 1.0, color: CREAM, textTransform: "uppercase", margin: "0 0 1.5rem" }}>
-            Your heading goes here.
+            Makreting that works harder.
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", color: `${CREAM}B8`, lineHeight: 1.75, margin: "0 0 2rem" }}>
-            We're a no-nonsense marketing consultancy for people who've built something real. No junior account managers, no retainer-padding, no slide decks full of buzzwords. You get direct access to the people doing the work — every time.
+            Sometimes your marketing just needs a bright idea. Sometimes it needs a full campaign. Either way we're here to help!
           </p>
           <Link
             to="/about"
