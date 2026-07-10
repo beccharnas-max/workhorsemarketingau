@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
 import image1 from "../../public/image1.jpg";
-import image2 from "../../public/image2.jpg";
+import image2 from "../../public/becc.png";
 import image3 from "../../public/image3.jpg";
 
 const PINK = "#E86B9A";
@@ -282,7 +282,7 @@ export default function Home() {
             zIndex: 2,
             boxShadow: "0 24px 60px rgba(0,0,0,0.12)",
           }}>
-            <img src={becc.png} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(-5deg) scale(1.15)" }} />
+            <img src={image2} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(-5deg) scale(1.15)" }} />
           </div>
 
           {/* Blob 3 — small, bottom, overlapping both */}
