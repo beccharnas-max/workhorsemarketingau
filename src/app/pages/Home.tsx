@@ -7,7 +7,7 @@ import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
 
-const PINK = "#E86B9A";
+const PINK = "#d62468ff";
 
 
 export default function Home() {
