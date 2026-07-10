@@ -168,12 +168,11 @@ export default function Home() {
             <rect width="900" height="280" fill={CREAM} />
 
             {/* blobs */}
-            <ellipse cx="310" cy="155" rx="255" ry="100" fill="#E86B9A" />
-            <ellipse cx="185" cy="200" rx="135" ry="68" fill="#E86B9A" />
-            <ellipse cx="390" cy="105" rx="160" ry="70" fill="#E86B9A" />
-            <ellipse cx="700" cy="145" rx="110" ry="88" fill="#E86B9A" />
-            <ellipse cx="768" cy="188" rx="68" ry="48" fill="#E86B9A" />
-
+            <ellipse cx="310" cy="155" rx="255" ry="100" fill="#d01c61ff" />
+            <ellipse cx="185" cy="200" rx="135" ry="68" fill="#d01c61ff" />
+            <ellipse cx="390" cy="105" rx="160" ry="70" fill="#d01c61ff" />
+            <ellipse cx="700" cy="145" rx="110" ry="88" fill="#d01c61ff" />
+            <ellipse cx="768" cy="188" rx="68" ry="48" fill="#d01c61ff" />
             {/* foreground rows clipped to blobs */}
             <text y="78"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
             <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
