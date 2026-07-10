@@ -282,7 +282,7 @@ export default function Home() {
             zIndex: 2,
             boxShadow: "0 24px 60px rgba(0,0,0,0.12)",
           }}>
-            <img src={image2} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(-5deg) scale(1.15)" }} />
+            <img src={becc.png} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(-5deg) scale(1.15)" }} />
           </div>
 
           {/* Blob 3 — small, bottom, overlapping both */}
