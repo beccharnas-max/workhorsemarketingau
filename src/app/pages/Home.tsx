@@ -2,10 +2,12 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
-import { CREAM, ORANGE, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
+import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
 import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
+
+const PINK = "#E86B9A";
 
 
 export default function Home() {
@@ -60,7 +62,7 @@ export default function Home() {
         >
           <div
             style={{
-              background: ORANGE,
+              background: PINK,
               borderRadius: HERO_BLOB,
               padding: "clamp(4rem,8vw,6rem) clamp(3rem,6vw,6rem)",
               textAlign: "center",
@@ -77,7 +79,7 @@ export default function Home() {
               <Link
                 to="/services"
                 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase", color: CREAM, border: `1.5px solid ${CREAM}`, background: "transparent", padding: "0.65rem 1.8rem", textDecoration: "none", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = ORANGE; }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = PINK; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = CREAM; }}
               >
                 See Our Services →
@@ -102,7 +104,7 @@ export default function Home() {
           whileInView={{ x: 0, opacity: 1, scale: 1 }}
           transition={{ duration: 1.0, ease: EASE }}
           viewport={{ once: true, amount: 0.2 }}
-          style={{ background: ORANGE, borderRadius: HERO_BLOB, padding: "clamp(3rem,7vw,6rem) clamp(2.5rem,6vw,5.5rem)", maxWidth: "720px", width: "100%" }}
+          style={{ background: PINK, borderRadius: HERO_BLOB, padding: "clamp(3rem,7vw,6rem) clamp(2.5rem,6vw,5.5rem)", maxWidth: "720px", width: "100%" }}
         >
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", letterSpacing: "0.18em", color: `${CREAM}8C`, textTransform: "uppercase", margin: "0 0 1rem" }}>
             Who We Are
@@ -116,7 +118,7 @@ export default function Home() {
           <Link
             to="/about"
             style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: CREAM, textDecoration: "none", border: `1px solid ${CREAM}55`, padding: "0.6rem 1.6rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = ORANGE; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = PINK; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = CREAM; }}
           >
             About us →
@@ -186,7 +188,7 @@ export default function Home() {
                     >
                       <span
                         style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: "2.4rem", color: BLACK, textTransform: "uppercase", letterSpacing: "0.03em", transition: "color 0.2s", lineHeight: 1 }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = ORANGE; }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = PINK; }}
                         onMouseLeave={(e) => { e.currentTarget.style.color = BLACK; }}
                       >
                         {service.title}
@@ -195,7 +197,7 @@ export default function Home() {
                       <svg width="24" height="24" viewBox="0 0 24 24" style={{ flexShrink: 0 }} xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M12 3C15.2 2.4 20.5 5.1 21 10.5C21.5 15.5 18.2 21.2 12.8 21C7.5 20.8 2.8 17 2.5 11.5C2.2 6.2 6.8 3.8 12 3Z"
-                          fill={ORANGE}
+                          fill={PINK}
                         />
                       </svg>
                     </Accordion.Trigger>
@@ -295,7 +297,7 @@ export default function Home() {
         <div style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(3.5rem,9vw,6rem)", color: BLACK, lineHeight: 1, letterSpacing: "0.04em", marginBottom: "0.4rem" }}>
           WORKHORSE
         </div>
-        <div style={{ height: "3px", background: ORANGE, marginBottom: "3rem" }} />
+        <div style={{ height: "3px", background: PINK, marginBottom: "3rem" }} />
         <div className="grid md:grid-cols-3" style={{ gap: "3rem", marginBottom: "4rem" }}>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Services</p>
@@ -305,7 +307,7 @@ export default function Home() {
           </div>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
-            <a href="mailto:hello@workhorse.co" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: ORANGE, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>hello@workhorse.co</a>
+            <a href="mailto:hello@workhorse.co" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>hello@workhorse.co</a>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
           </div>
           <div>
