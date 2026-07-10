@@ -52,7 +52,7 @@ export default function Home() {
         <motion.div
           initial={{ scale: 0.88, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", duration: 0.9 }}
+          transition={{ type: "spring", duration: 1.8, delay: 0.15 }}
           style={{ position: "relative", zIndex: 10, padding: "0 1.5rem", width: "100%", maxWidth: "760px" }}
         >
           <div
