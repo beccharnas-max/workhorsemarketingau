@@ -3,6 +3,9 @@ import { motion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, ORANGE, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
+import image1 from "../../public/image1.jpg";
+import image2 from "../../public/image2.jpg";
+import image3 from "../../public/image3.jpg";
 
 
 export default function Home() {
@@ -105,7 +108,7 @@ export default function Home() {
             Who We Are
           </p>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2rem,4.5vw,3.2rem)", lineHeight: 1.0, color: CREAM, textTransform: "uppercase", margin: "0 0 1.5rem" }}>
-            Makreting that works harder.
+            Marketing that works harder.
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", color: `${CREAM}B8`, lineHeight: 1.75, margin: "0 0 2rem" }}>
             Sometimes your marketing just needs a bright idea. Sometimes it needs a full campaign. Either way we're here to help!
@@ -258,7 +261,7 @@ export default function Home() {
             overflow: "hidden",
             position: "relative",
           }}>
-            <img src="/src/public/image1.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+            <img src={image1} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
           </div>
 
           {/* Blob 2 */}
@@ -270,7 +273,7 @@ export default function Home() {
             overflow: "hidden",
             position: "relative",
           }}>
-            <img src="/src/public/image2.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+            <img src={image2} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
           </div>
 
           {/* Blob 3 */}
@@ -282,7 +285,7 @@ export default function Home() {
             overflow: "hidden",
             position: "relative",
           }}>
-            <img src="/src/public/image3.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+            <img src={image3} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
           </div>
         </motion.div>
       </section>
