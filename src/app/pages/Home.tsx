@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
-import image1 from "../../public/image1.jpg";
+import image1 from "../../public/becc.png";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
 
