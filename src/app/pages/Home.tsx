@@ -4,14 +4,14 @@ import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
 import image1 from "../../public/image1.jpg";
-import image2 from "../../public/becc.png";
+import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
 
-const PINK = "#E86B9A";
+const PINK = "#d01c61ff";
 
 
 export default function Home() {
-  const [wallpaperOpacity, setWallpaperOpacity] = useState(1);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -19,11 +19,11 @@ export default function Home() {
       if (!heroRef.current) return;
       const heroH = heroRef.current.offsetHeight;
       const scrolled = window.scrollY;
-      const fadeStart = heroH * 0.7;
-      const fadeEnd = heroH;
-      if (scrolled <= fadeStart) setWallpaperOpacity(1);
-      else if (scrolled >= fadeEnd) setWallpaperOpacity(0);
-      else setWallpaperOpacity(1 - (scrolled - fadeStart) / (fadeEnd - fadeStart));
+      const fadeStart = heroH * 0.4;
+      const fadeEnd = heroH * 0.95;
+      if (scrolled <= fadeStart) setScrollProgress(0);
+      else if (scrolled >= fadeEnd) setScrollProgress(1);
+      else setScrollProgress((scrolled - fadeStart) / (fadeEnd - fadeStart));
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -40,17 +40,30 @@ export default function Home() {
         {/* WORKHORSE wallpaper */}
         <div
           aria-hidden="true"
-          style={{ position: "absolute", inset: 0, paddingTop: "4.5rem", opacity: wallpaperOpacity, userSelect: "none", pointerEvents: "none" }}
+          style={{ position: "absolute", inset: 0, paddingTop: "4.5rem", opacity: 1 - scrollProgress, userSelect: "none", pointerEvents: "none" }}
         >
-          {Array.from({ length: 12 }).map((_, row) => (
-            <div key={row} style={{ display: "flex", marginLeft: row % 2 === 1 ? "-4vw" : "0", whiteSpace: "nowrap", lineHeight: 1.05 }}>
-              {Array.from({ length: 5 }).map((_, col) => (
-                <span key={col} style={{ fontFamily: "'Anton', sans-serif", fontSize: "10vw", color: BLACK, letterSpacing: "0.02em", flexShrink: 0, paddingRight: "0.2em" }}>
-                  WORKHORSE
-                </span>
-              ))}
-            </div>
-          ))}
+          {Array.from({ length: 12 }).map((_, row) => {
+            const direction = row % 2 === 0 ? -1 : 1;
+            const translateVw = direction * scrollProgress * 70;
+            return (
+              <div
+                key={row}
+                style={{
+                  display: "flex",
+                  marginLeft: row % 2 === 1 ? "-4vw" : "0",
+                  whiteSpace: "nowrap",
+                  lineHeight: 1.05,
+                  transform: `translateX(${translateVw}vw)`,
+                }}
+              >
+                {Array.from({ length: 5 }).map((_, col) => (
+                  <span key={col} style={{ fontFamily: "'Anton', sans-serif", fontSize: "10vw", color: BLACK, letterSpacing: "0.02em", flexShrink: 0, paddingRight: "0.2em" }}>
+                    WORKHORSE
+                  </span>
+                ))}
+              </div>
+            );
+          })}
         </div>
 
         {/* Orange blob */}
