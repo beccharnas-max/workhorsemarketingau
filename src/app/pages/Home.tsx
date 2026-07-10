@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
-import image1 from "../../public/becc.png";
+import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
 
@@ -243,16 +243,24 @@ export default function Home() {
       {/* ── No Bullshit ── */}
       <section style={{ background: "#FFFFED", padding: "8rem 2rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 32, scale: 0.94 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: EASE }}
           viewport={{ once: true, amount: 0.3 }}
-          style={{ maxWidth: "640px", textAlign: "center" }}
+          style={{
+            maxWidth: "720px",
+            width: "100%",
+            textAlign: "center",
+            background: PINK,
+            borderRadius: "46% 54% 58% 42% / 44% 40% 60% 56%",
+            padding: "clamp(3.5rem,8vw,6.5rem) clamp(2.5rem,6vw,5.5rem)",
+            boxShadow: "0 30px 70px rgba(0,0,0,0.16)",
+          }}
         >
-          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.6rem,5.5vw,4rem)", color: BLACK, textTransform: "uppercase", lineHeight: 1, margin: "0 0 2rem" }}>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.6rem,5.5vw,4rem)", color: CREAM, textTransform: "uppercase", lineHeight: 1, margin: "0 0 2rem" }}>
             No Bullshit. Just Results.
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: `${BLACK}99`, lineHeight: 1.85, margin: 0 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: `${CREAM}D9`, lineHeight: 1.85, margin: 0 }}>
             The marketing industry loves to make itself sound complicated. I don't. You'll always know what I'm doing, why I'm doing it, and what it's delivering. That's the whole deal.
           </p>
         </motion.div>
