@@ -43,7 +43,7 @@ export default function Home() {
           aria-hidden="true"
           style={{ position: "absolute", inset: 0, paddingTop: "4.5rem", opacity: 1 - scrollProgress, userSelect: "none", pointerEvents: "none" }}
         >
-          {Array.from({ length: 12 }).map((_, row) => {
+          {Array.from({ length: 24 }).map((_, row) => {
             const direction = row % 2 === 0 ? -1 : 1;
             const translateVw = direction * scrollProgress * 70;
             return (
