@@ -1,7 +1,10 @@
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
-import { CREAM, ORANGE, BLACK, EASE, BOX_SHAPE, SERVICES_DATA } from "../constants";
+import { CREAM, BLACK, EASE, BOX_SHAPE, SERVICES_DATA } from "../constants";
+
+const PINK = "#d01c61ff";
+const SERVICES_TEXT_COLOR = "#FCE4EE";
 
 export default function Services() {
   return (
@@ -29,16 +32,16 @@ export default function Services() {
             <rect width="900" height="300" fill={CREAM} />
 
             {/* blobs */}
-            <ellipse cx="300" cy="160" rx="240" ry="95" fill="#E86B9A" />
-            <ellipse cx="170" cy="205" rx="120" ry="62" fill="#E86B9A" />
-            <ellipse cx="460" cy="110" rx="150" ry="72" fill="#E86B9A" />
-            <ellipse cx="690" cy="150" rx="115" ry="90" fill="#E86B9A" />
-            <ellipse cx="760" cy="195" rx="70" ry="50" fill="#E86B9A" />
+            <ellipse cx="300" cy="160" rx="240" ry="95" fill={PINK} />
+            <ellipse cx="170" cy="205" rx="120" ry="62" fill={PINK} />
+            <ellipse cx="460" cy="110" rx="150" ry="72" fill={PINK} />
+            <ellipse cx="690" cy="150" rx="115" ry="90" fill={PINK} />
+            <ellipse cx="760" cy="195" rx="70" ry="50" fill={PINK} />
 
             {/* foreground rows clipped to blobs */}
-            <text y="72"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
-            <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
-            <text y="252" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
+            <text y="72"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
+            <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
+            <text y="252" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
           </svg>
         </motion.div>
       </section>
@@ -56,7 +59,7 @@ export default function Services() {
             fontSize: "0.6rem",
             letterSpacing: "0.22em",
             textTransform: "uppercase",
-            color: ORANGE,
+            color: PINK,
             marginBottom: "1.5rem",
           }}>
             What we do
@@ -114,11 +117,11 @@ export default function Services() {
                       >
                         {service.title}
                       </span>
-                      {/* Orange blob indicator */}
+                      {/* Pink blob indicator */}
                       <svg width="24" height="24" viewBox="0 0 24 24" style={{ flexShrink: 0 }} xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M12 3C15.2 2.4 20.5 5.1 21 10.5C21.5 15.5 18.2 21.2 12.8 21C7.5 20.8 2.8 17 2.5 11.5C2.2 6.2 6.8 3.8 12 3Z"
-                          fill={ORANGE}
+                          fill={PINK}
                         />
                       </svg>
                     </Accordion.Trigger>
@@ -156,7 +159,7 @@ export default function Services() {
           transition={{ duration: 0.8, ease: EASE }}
           viewport={{ once: true, amount: 0.3 }}
           style={{
-            background: ORANGE,
+            background: PINK,
             borderRadius: BOX_SHAPE,
             padding: "3rem 2.5rem",
             display: "flex",
@@ -207,7 +210,7 @@ export default function Services() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = CREAM;
-              e.currentTarget.style.color = ORANGE;
+              e.currentTarget.style.color = PINK;
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";

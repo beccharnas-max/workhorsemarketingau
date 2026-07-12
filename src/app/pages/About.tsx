@@ -1,6 +1,10 @@
 import { motion } from "motion/react";
 import { Link } from "react-router";
-import { CREAM, ORANGE, BLACK, EASE, BOX_SHAPE, HERO_BLOB } from "../constants";
+import { CREAM, BLACK, EASE, BOX_SHAPE, HERO_BLOB } from "../constants";
+import founderImage from "../../public/founder.jpg";
+
+const PINK = "#d01c61ff";
+const SERVICES_TEXT_COLOR = "#FCE4EE";
 
 export default function About() {
   return (
@@ -28,16 +32,16 @@ export default function About() {
             <rect width="900" height="300" fill={CREAM} />
 
             {/* blobs */}
-            <ellipse cx="300" cy="160" rx="240" ry="95" fill="#E86B9A" />
-            <ellipse cx="170" cy="205" rx="120" ry="62" fill="#E86B9A" />
-            <ellipse cx="460" cy="110" rx="150" ry="72" fill="#E86B9A" />
-            <ellipse cx="690" cy="150" rx="115" ry="90" fill="#E86B9A" />
-            <ellipse cx="760" cy="195" rx="70" ry="50" fill="#E86B9A" />
+            <ellipse cx="300" cy="160" rx="240" ry="95" fill={PINK} />
+            <ellipse cx="170" cy="205" rx="120" ry="62" fill={PINK} />
+            <ellipse cx="460" cy="110" rx="150" ry="72" fill={PINK} />
+            <ellipse cx="690" cy="150" rx="115" ry="90" fill={PINK} />
+            <ellipse cx="760" cy="195" rx="70" ry="50" fill={PINK} />
 
             {/* foreground rows clipped to blobs */}
-            <text y="72"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#about-blobs-clip)">ABOUT US ABOUT US ABOUT US ABOUT US ABOUT US</text>
-            <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#about-blobs-clip)">ABOUT US ABOUT US ABOUT US ABOUT US ABOUT US</text>
-            <text y="252" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill="#1C3A2A" clipPath="url(#about-blobs-clip)">ABOUT US ABOUT US ABOUT US ABOUT US ABOUT US</text>
+            <text y="72"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#about-blobs-clip)">ABOUT US ABOUT US ABOUT US ABOUT US ABOUT US</text>
+            <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#about-blobs-clip)">ABOUT US ABOUT US ABOUT US ABOUT US ABOUT US</text>
+            <text y="252" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#about-blobs-clip)">ABOUT US ABOUT US ABOUT US ABOUT US ABOUT US</text>
           </svg>
         </motion.div>
       </section>
@@ -55,7 +59,7 @@ export default function About() {
             fontSize: "0.6rem",
             letterSpacing: "0.22em",
             textTransform: "uppercase",
-            color: ORANGE,
+            color: PINK,
             marginBottom: "1.5rem",
           }}>
             About Workhorse
@@ -91,7 +95,7 @@ export default function About() {
             fontSize: "0.6rem",
             letterSpacing: "0.22em",
             textTransform: "uppercase",
-            color: ORANGE,
+            color: PINK,
             marginBottom: "1rem",
           }}>
             Founder
@@ -120,7 +124,7 @@ export default function About() {
               }}
             >
               <img
-                src="/src/public/founder.jpg"
+                src={founderImage}
                 alt="Becc — Founder & Strategist"
                 style={{
                   position: "absolute",
@@ -188,7 +192,7 @@ export default function About() {
                   fontFamily: "'Oswald', sans-serif",
                   fontWeight: 700,
                   fontSize: "1.6rem",
-                  color: ORANGE,
+                  color: PINK,
                   textTransform: "uppercase",
                   letterSpacing: "0.04em",
                   margin: "0 0 0.25rem",
@@ -220,7 +224,7 @@ export default function About() {
           transition={{ duration: 0.8, ease: EASE }}
           viewport={{ once: true, amount: 0.3 }}
           style={{
-            background: ORANGE,
+            background: PINK,
             borderRadius: BOX_SHAPE,
             padding: "3rem 2.5rem",
             display: "flex",
@@ -255,7 +259,7 @@ export default function About() {
               transition: "background 0.2s, color 0.2s",
               borderRadius: "9999px",
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = ORANGE; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = PINK; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = CREAM; }}
           >
             View services →
