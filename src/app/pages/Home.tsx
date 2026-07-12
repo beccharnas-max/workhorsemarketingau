@@ -339,7 +339,7 @@ export default function Home() {
           </div>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
-            <a href="mailto:hello@workhorse.co" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>hello@workhorse.co</a>
+            <a href="mailto:becc@workhorsemarketing.au" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>becc@workhorsemarketing.au</a>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
           </div>
           <div>

@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import { CREAM, BLACK, EASE, BOX_SHAPE, HERO_BLOB } from "../constants";
-import founderImage from "../../public/founder.jpg";
+import founderImage from "../../public/becc.png";
 
 const PINK = "#d01c61ff";
 const SERVICES_TEXT_COLOR = "#FCE4EE";
