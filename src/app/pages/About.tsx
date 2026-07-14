@@ -71,7 +71,7 @@ export default function About() {
             lineHeight: 1.85,
             margin: 0,
           }}>
-            Add your about us copy here. Tell your story — why you started Workhorse, what you've seen go wrong at big agencies, and why real businesses deserve better. This is where you build trust with the people reading.
+            We help small businesses in Sydney get more customers. Good visibility, a website that converts, and ads that bring people in — done properly, without the agency run-around.
           </p>
         </motion.div>
       </section>

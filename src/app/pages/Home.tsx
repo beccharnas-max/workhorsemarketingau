@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
-import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
 import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
@@ -82,7 +81,7 @@ export default function Home() {
               textAlign: "center",
             }}
           >
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", letterSpacing: "0.18em", color: `${CREAM}A6`, textTransform: "uppercase", margin: "0 0 1.2rem" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.18em", color: `${CREAM}A6`, textTransform: "uppercase", margin: "0 0 1.2rem" }}>
               Marketing for Real Businesses
             </p>
             <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.6rem,5.5vw,4.4rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 2rem" }}>
@@ -92,7 +91,7 @@ export default function Home() {
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
               <Link
                 to="/services"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase", color: CREAM, border: `1.5px solid ${CREAM}`, background: "transparent", padding: "0.65rem 1.8rem", textDecoration: "none", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.14em", textTransform: "uppercase", color: CREAM, border: `1.5px solid ${CREAM}`, background: "transparent", padding: "0.65rem 1.8rem", textDecoration: "none", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = PINK; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = CREAM; }}
               >
@@ -100,7 +99,7 @@ export default function Home() {
               </Link>
               <Link
                 to="/about"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase", color: `${CREAM}CC`, border: "none", background: "transparent", textDecoration: "none", padding: "0.65rem 0.5rem" }}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.14em", textTransform: "uppercase", color: `${CREAM}CC`, border: "none", background: "transparent", textDecoration: "none", padding: "0.65rem 0.5rem" }}
               >
                 About Us
               </Link>
@@ -120,27 +119,27 @@ export default function Home() {
           viewport={{ once: true, amount: 0.2 }}
           style={{ background: PINK, borderRadius: HERO_BLOB, padding: "clamp(3rem,7vw,6rem) clamp(2.5rem,6vw,5.5rem)", maxWidth: "720px", width: "100%" }}
         >
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", letterSpacing: "0.18em", color: `${CREAM}8C`, textTransform: "uppercase", margin: "0 0 1rem" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.18em", color: `${CREAM}8C`, textTransform: "uppercase", margin: "0 0 1rem" }}>
             Who We Are
           </p>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2rem,4.5vw,3.2rem)", lineHeight: 1.0, color: CREAM, textTransform: "uppercase", margin: "0 0 1.5rem" }}>
             Marketing that works harder.
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", color: `${CREAM}B8`, lineHeight: 1.75, margin: "0 0 2rem" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.15rem", color: `${CREAM}B8`, lineHeight: 1.75, margin: "0 0 2rem" }}>
             Sometimes your marketing just needs a bright idea. Sometimes it needs a full campaign. Either way we're here to help!
           </p>
           <Link
             to="/about"
-            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: CREAM, textDecoration: "none", border: `1px solid ${CREAM}55`, padding: "0.6rem 1.6rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
+            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.18em", textTransform: "uppercase", color: CREAM, textDecoration: "none", border: `1px solid ${CREAM}55`, padding: "0.6rem 1.6rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
             onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = PINK; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = CREAM; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = BLACK; }}
           >
             About us →
           </Link>
         </motion.div>
       </section>
 
-      {/* ── Services accordion ── */}
+      {/* ── Services: four-category layout ── */}
       <section style={{ background: CREAM, padding: "6rem 2rem" }}>
 
         {/* SVG cutout heading */}
@@ -186,51 +185,88 @@ export default function Home() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE }}
           viewport={{ once: true, amount: 0.2 }}
-          style={{ maxWidth: "720px", margin: "0 auto" }}
+          style={{ maxWidth: "1100px", margin: "0 auto" }}
         >
-          <Accordion.Root type="single" collapsible defaultValue="marketing">
-            {SERVICES_DATA.map((service) => (
-              <div
-                key={service.id}
-                style={{ borderBottom: `1px solid ${BLACK}1A` }}
-              >
-                <Accordion.Item value={service.id}>
-                  <Accordion.Header>
-                    <Accordion.Trigger
-                      style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "1.25rem 0.75rem", background: "transparent", border: "none", cursor: "pointer", textAlign: "left" }}
-                    >
-                      <span
-                        style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 600, fontSize: "2.4rem", color: BLACK, textTransform: "uppercase", letterSpacing: "0.03em", transition: "color 0.2s", lineHeight: 1 }}
-                        onMouseEnter={(e) => { e.currentTarget.style.color = PINK; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.color = BLACK; }}
-                      >
-                        {service.title}
-                      </span>
-                      {/* Orange blob indicator */}
-                      <svg width="24" height="24" viewBox="0 0 24 24" style={{ flexShrink: 0 }} xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12 3C15.2 2.4 20.5 5.1 21 10.5C21.5 15.5 18.2 21.2 12.8 21C7.5 20.8 2.8 17 2.5 11.5C2.2 6.2 6.8 3.8 12 3Z"
-                          fill={PINK}
-                        />
-                      </svg>
-                    </Accordion.Trigger>
-                  </Accordion.Header>
-                  <Accordion.Content
-                    className="data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up"
-                    style={{ overflow: "hidden" }}
+          <div
+            className="grid sm:grid-cols-2 lg:grid-cols-4"
+            style={{ gap: "3rem" }}
+          >
+            {SERVICES_DATA.map((group) => (
+              <div key={group.id}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1.1rem" }}>
+                  <div
+                    style={{
+                      width: "12px",
+                      height: "12px",
+                      borderRadius: "50%",
+                      background: PINK,
+                      flexShrink: 0,
+                    }}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "'Oswald', sans-serif",
+                      fontWeight: 700,
+                      fontSize: "1.6rem",
+                      color: BLACK,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.02em",
+                      lineHeight: 1,
+                      margin: 0,
+                    }}
                   >
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.92rem", color: `${BLACK}99`, lineHeight: 1.8, paddingBottom: "1.5rem", margin: 0, maxWidth: "36rem", paddingLeft: "0.75rem" }}>
-                      {service.body}
-                    </p>
-                  </Accordion.Content>
-                </Accordion.Item>
+                    {group.tag}
+                  </p>
+                </div>
+                <div>
+                  {group.items.map((item, i) => (
+                    i === 0 ? (
+                      <div
+                        key={item}
+                        style={{
+                          borderLeft: `3px solid ${PINK}`,
+                          background: `linear-gradient(90deg, ${PINK}0F, transparent)`,
+                          paddingLeft: "0.9rem",
+                          marginBottom: "0.1rem",
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontFamily: "'DM Sans', sans-serif",
+                            fontSize: "0.92rem",
+                            fontWeight: 500,
+                            color: BLACK,
+                            margin: 0,
+                            padding: "0.8rem 0",
+                          }}
+                        >
+                          {item}
+                        </p>
+                      </div>
+                    ) : (
+                      <p
+                        key={item}
+                        style={{
+                          fontFamily: "'DM Sans', sans-serif",
+                          fontSize: "0.9rem",
+                          color: `${BLACK}99`,
+                          margin: 0,
+                          padding: "0.8rem 0 0.8rem 1.05rem",
+                        }}
+                      >
+                        {item}
+                      </p>
+                    )
+                  ))}
+                </div>
               </div>
             ))}
-          </Accordion.Root>
-          <div style={{ marginTop: "2.5rem" }}>
+          </div>
+
+          <div style={{ marginTop: "3rem" }}>
             <Link
               to="/services"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: BLACK, textDecoration: "none", border: `1px solid ${BLACK}33`, padding: "0.65rem 1.8rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.18em", textTransform: "uppercase", color: BLACK, textDecoration: "none", border: `1px solid ${BLACK}33`, padding: "0.65rem 1.8rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.color = CREAM; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = BLACK; }}
             >
@@ -260,7 +296,7 @@ export default function Home() {
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.6rem,5.5vw,4rem)", color: CREAM, textTransform: "uppercase", lineHeight: 1, margin: "0 0 2rem" }}>
             No Bullshit. Just Results.
           </h2>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: `${CREAM}D9`, lineHeight: 1.85, margin: 0 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.2rem", color: `${CREAM}D9`, lineHeight: 1.85, margin: 0 }}>
             The marketing industry loves to make itself sound complicated. I don't. You'll always know what I'm doing, why I'm doing it, and what it's delivering. That's the whole deal.
           </p>
         </motion.div>
@@ -332,28 +368,28 @@ export default function Home() {
         <div style={{ height: "3px", background: PINK, marginBottom: "3rem" }} />
         <div className="grid md:grid-cols-3" style={{ gap: "3rem", marginBottom: "4rem" }}>
           <div>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Services</p>
-            {["Marketing & Campaigns", "Paid Social Advertising", "Brand Strategy", "Content Creation"].map((item) => (
-              <p key={item} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: `${BLACK}99`, margin: "0 0 0.5rem", cursor: "pointer" }}>{item}</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Services</p>
+            {["Foundations", "Growth", "Convert", "Results"].map((item) => (
+              <p key={item} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}99`, margin: "0 0 0.5rem", cursor: "pointer" }}>{item}</p>
             ))}
           </div>
           <div>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
-            <a href="mailto:becc@workhorsemarketing.au" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>becc@workhorsemarketing.au</a>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
+            <a href="mailto:becc@workhorsemarketing.au" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>becc@workhorsemarketing.au</a>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
           </div>
           <div>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.6rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Follow</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Follow</p>
             {["Instagram", "LinkedIn", "TikTok"].map((p) => (
-              <p key={p} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", color: `${BLACK}99`, margin: "0 0 0.5rem", cursor: "pointer" }}>{p}</p>
+              <p key={p} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}99`, margin: "0 0 0.5rem", cursor: "pointer" }}>{p}</p>
             ))}
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${BLACK}14`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.62rem", color: `${BLACK}40`, textTransform: "uppercase", letterSpacing: "0.12em", margin: 0 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: `${BLACK}40`, textTransform: "uppercase", letterSpacing: "0.12em", margin: 0 }}>
             © 2024 Workhorse Marketing. All rights reserved.
           </p>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.62rem", color: `${BLACK}40`, textTransform: "uppercase", letterSpacing: "0.12em", margin: 0 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: `${BLACK}40`, textTransform: "uppercase", letterSpacing: "0.12em", margin: 0 }}>
             Marketing for Real Businesses
           </p>
         </div>
