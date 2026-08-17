@@ -1,10 +1,83 @@
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
-import { CREAM, BLACK, EASE, BOX_SHAPE, SERVICES_DETAIL_DATA, TRUST_POINTS } from "../constants";
+import { CREAM, BLACK, EASE, BOX_SHAPE, TRUST_POINTS } from "../constants";
 
 const PINK = "#d01c61ff";
 const SERVICES_TEXT_COLOR = "#FCE4EE";
+
+/**
+ * Accordion content — Strategy sits above as its own entry-point section,
+ * these three are the execution phases, in delivery order:
+ * Foundations (get found) → Convert (make sure it works) → Growth (pay to send traffic).
+ */
+const SERVICES_DETAIL_DATA = [
+  {
+    id: "foundations",
+    title: "Foundations",
+    intro: "Get the basics right first so you can get found.",
+    groups: [
+      {
+        label: undefined,
+        items: [
+          "Google Business Profile setup",
+          "Local SEO",
+          "Website audit",
+          "Analytics & tracking setup",
+        ],
+      },
+    ],
+  },
+  {
+    id: "convert",
+    title: "Convert",
+    intro: "Make sure the people who find you actually become customers.",
+    groups: [
+      {
+        label: "Strategy",
+        items: ["Conversion audit", "Funnel mapping", "Offer & CTA strategy"],
+      },
+      {
+        label: "Execution",
+        items: [
+          "Landing page design & optimization",
+          "Lead capture forms",
+          "CRM / lead routing setup",
+          "Follow-up automation",
+          "Trust signals (reviews & testimonials)",
+        ],
+      },
+    ],
+  },
+  {
+    id: "growth",
+    title: "Growth",
+    intro:
+      "Paid Social and ROI — we run targeted local ad campaigns designed to bring in real customers, not just clicks, and make sure every dollar spent is tracked so you know exactly what it's earning you back.",
+    groups: [
+      {
+        label: "Strategy",
+        items: ["Paid ads strategy", "Audience analysis", "Competitor landscapes"],
+      },
+      {
+        label: "Execution",
+        items: [
+          "Marketing campaigns",
+          "Local Meta ad campaigns",
+          "Ad creative direction",
+          "Ad tracking and set up",
+        ],
+      },
+    ],
+  },
+];
+
+/** Results block — edit these to real numbers/proof once you have them. */
+const RESULTS_POINTS = [
+  { stat: "2–3x", label: "Average increase in qualified leads within 90 days" },
+  { stat: "100%", label: "Of ad spend tracked back to real customer actions" },
+  { stat: "30 days", label: "Typical time to see measurable movement" },
+];
 
 export default function Services() {
   return (
@@ -76,7 +149,78 @@ export default function Services() {
         </motion.div>
       </section>
 
-      {/* ── Accordion: Foundations / Growth / Convert / Results ── */}
+      {/* ── Strategy: entry-point section, sits above the accordion ── */}
+      <section style={{ padding: "1rem 2rem 2rem", maxWidth: "720px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          viewport={{ once: true, amount: 0.2 }}
+          style={{
+            background: "#FFFFFF",
+            borderRadius: BOX_SHAPE,
+            padding: "2.5rem",
+            boxShadow: "0 18px 40px rgba(0,0,0,0.08)",
+            border: `1px solid ${BLACK}0D`,
+          }}
+        >
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.8rem",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: PINK,
+            marginBottom: "1rem",
+          }}>
+            Strategy
+          </p>
+          <p style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontWeight: 600,
+            fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)",
+            color: BLACK,
+            textTransform: "uppercase",
+            letterSpacing: "0.02em",
+            margin: "0 0 1rem",
+          }}>
+            Before we touch anything, we figure out what matters
+          </p>
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "1rem",
+            color: `${BLACK}99`,
+            lineHeight: 1.8,
+            margin: "0 0 1.5rem",
+          }}>
+            Every engagement starts here — a discovery pass that shapes what you actually need from Foundations, Convert, and Growth below, so you're not paying for work you don't need.
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            {[
+              "Market & competitor audit",
+              "Positioning & messaging",
+              "Customer / audience research",
+              "Channel prioritization",
+              "Goals & KPI definition",
+            ].map((item) => (
+              <p
+                key={item}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.95rem",
+                  color: BLACK,
+                  margin: 0,
+                  padding: "0.5rem 0",
+                  borderTop: `1px solid ${BLACK}14`,
+                }}
+              >
+                {item}
+              </p>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── Accordion: Foundations / Convert / Growth ── */}
       <section style={{ padding: "2rem 2rem 5rem", maxWidth: "900px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
@@ -244,6 +388,69 @@ export default function Services() {
               </p>
             </motion.div>
           ))}
+        </motion.div>
+      </section>
+
+      {/* ── Results: outcomes/proof block ── */}
+      <section style={{ padding: "1rem 2rem 5rem", maxWidth: "900px", margin: "0 auto" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          viewport={{ once: true, amount: 0.2 }}
+          style={{
+            background: PINK,
+            borderRadius: BOX_SHAPE,
+            padding: "3rem 2.5rem",
+          }}
+        >
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.8rem",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: `${CREAM}CC`,
+            marginBottom: "1rem",
+          }}>
+            Results
+          </p>
+          <p style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontWeight: 700,
+            fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
+            color: CREAM,
+            textTransform: "uppercase",
+            lineHeight: 1.1,
+            margin: "0 0 2rem",
+            maxWidth: "32rem",
+          }}>
+            Every phase is built to show its work.
+          </p>
+
+          <div className="grid md:grid-cols-3" style={{ gap: "1.5rem" }}>
+            {RESULTS_POINTS.map((r) => (
+              <div key={r.label}>
+                <p style={{
+                  fontFamily: "'Anton', sans-serif",
+                  fontSize: "clamp(2.2rem, 4vw, 3rem)",
+                  color: CREAM,
+                  margin: "0 0 0.5rem",
+                  lineHeight: 1,
+                }}>
+                  {r.stat}
+                </p>
+                <p style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.9rem",
+                  color: `${CREAM}CC`,
+                  lineHeight: 1.6,
+                  margin: 0,
+                }}>
+                  {r.label}
+                </p>
+              </div>
+            ))}
+          </div>
         </motion.div>
       </section>
 

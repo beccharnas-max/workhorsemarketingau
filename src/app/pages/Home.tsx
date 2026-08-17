@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
-import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE, SERVICES_DATA } from "../constants";
+import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE } from "../constants";
 import image1 from "../../public/image1.jpg";
 import image2 from "../../public/image2.jpg";
 import image3 from "../../public/image3.jpg";
@@ -9,6 +9,53 @@ import image3 from "../../public/image3.jpg";
 const PINK = "#d01c61ff";
 const SERVICES_TEXT_COLOR = "#FCE4EE";
 
+/**
+ * Condensed home-page preview of the services page — kept in the same
+ * order and naming as /services: Strategy → Foundations → Convert → Growth.
+ * First item per column is highlighted (matches existing design).
+ */
+const SERVICES_DATA = [
+  {
+    id: "strategy",
+    tag: "Strategy",
+    items: [
+      "Market & competitor audit",
+      "Positioning & messaging",
+      "Customer & audience research",
+      "Goals & KPI definition",
+    ],
+  },
+  {
+    id: "foundations",
+    tag: "Foundations",
+    items: [
+      "Google Business Profile setup",
+      "Local SEO",
+      "Website audit",
+      "Analytics & tracking setup",
+    ],
+  },
+  {
+    id: "convert",
+    tag: "Convert",
+    items: [
+      "Conversion audit",
+      "Landing page design & optimisation",
+      "Lead capture forms",
+      "Follow-up automation",
+    ],
+  },
+  {
+    id: "growth",
+    tag: "Growth",
+    items: [
+      "Paid ads strategy",
+      "Local Meta ad campaigns",
+      "Ad creative direction",
+      "Ad tracking and set up",
+    ],
+  },
+];
 
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -369,7 +416,7 @@ export default function Home() {
         <div className="grid md:grid-cols-3" style={{ gap: "3rem", marginBottom: "4rem" }}>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Services</p>
-            {["Foundations", "Growth", "Convert", "Results"].map((item) => (
+            {["Strategy", "Foundations", "Convert", "Growth", "Results"].map((item) => (
               <p key={item} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}99`, margin: "0 0 0.5rem", cursor: "pointer" }}>{item}</p>
             ))}
           </div>
