@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
 import { CREAM, BLACK, EASE, HERO_BLOB, BOX_SHAPE } from "../constants";
 import image1 from "../../public/image1.jpg";
@@ -9,11 +9,6 @@ import image3 from "../../public/image3.jpg";
 const PINK = "#d01c61ff";
 const SERVICES_TEXT_COLOR = "#FCE4EE";
 
-/**
- * Condensed home-page preview of the services page — kept in the same
- * order and naming as /services: Strategy → Foundations → Convert → Growth.
- * First item per column is highlighted (matches existing design).
- */
 const SERVICES_DATA = [
   {
     id: "strategy",
@@ -57,6 +52,345 @@ const SERVICES_DATA = [
   },
 ];
 
+const JOURNEY_STAGES = [
+  {
+    id: "word-of-mouth",
+    tag: "Where you are",
+    label: "Word of\nMouth",
+    icon: "🗣",
+    title: "Built on referrals",
+    intro:
+      "You've grown this far through word of mouth — and that's proof the product is good. But referrals are unpredictable. You're ready for something more consistent.",
+    points: [
+      "Growth relies on who your customers know",
+      "Pipeline feels feast or famine",
+      "Hard to plan when leads are unpredictable",
+    ],
+  },
+  {
+    id: "foundations",
+    tag: "Step 01",
+    label: "Foundations",
+    icon: "🏗",
+    title: "Get found first",
+    intro:
+      "Before paid ads, you need the basics locked in. Google Business Profile, local SEO, tracking — so when people search, you show up.",
+    points: [
+      "Google Business Profile setup",
+      "Local SEO",
+      "Analytics & tracking setup",
+    ],
+  },
+  {
+    id: "convert",
+    tag: "Step 02",
+    label: "Convert",
+    icon: "⚡",
+    title: "Turn visitors into customers",
+    intro:
+      "Traffic means nothing if people leave. We make sure your site and landing pages are built to actually convert visitors into real enquiries.",
+    points: [
+      "High-converting landing pages",
+      "Conversion audits",
+      "Website copywriting",
+    ],
+  },
+  {
+    id: "growth",
+    tag: "Step 03",
+    label: "Growth",
+    icon: "🎯",
+    title: "Paid ads that actually work",
+    intro:
+      "Targeted local ad campaigns on Meta, designed to bring in real customers — not just clicks. Every dollar tracked back to real actions.",
+    points: [
+      "Local Meta ad campaigns",
+      "Audience analysis & ad strategy",
+      "Ad creative direction & tracking",
+    ],
+  },
+  {
+    id: "results",
+    tag: "Where you're headed",
+    label: "Results",
+    icon: "📈",
+    title: "Consistent, measurable growth",
+    intro:
+      "A steady pipeline of new customers who found you through smart, targeted marketing — not luck. Monthly reports so you always know what's working.",
+    points: [
+      "Predictable lead flow",
+      "Full ad spend accountability",
+      "Monthly performance reports",
+    ],
+  },
+];
+
+function JourneyGraphic() {
+  const [active, setActive] = useState(0);
+  const current = JOURNEY_STAGES[active];
+  const isResult = active === JOURNEY_STAGES.length - 1;
+
+  return (
+    <section style={{ padding: "4rem 2rem 5rem", maxWidth: "900px", margin: "0 auto" }}>
+
+      <p style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: "0.8rem",
+        letterSpacing: "0.22em",
+        textTransform: "uppercase",
+        color: PINK,
+        marginBottom: "1rem",
+      }}>
+        The journey
+      </p>
+
+      <h2 style={{
+        fontFamily: "'Oswald', sans-serif",
+        fontWeight: 700,
+        fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+        textTransform: "uppercase",
+        color: BLACK,
+        lineHeight: 1,
+        margin: "0 0 2.5rem",
+      }}>
+        From word of mouth
+        <br />
+        <span style={{ color: PINK }}>to real results.</span>
+      </h2>
+
+      {/* Track */}
+      <div style={{ position: "relative", marginBottom: "2.5rem" }}>
+
+        {/* Connector line */}
+        <div style={{
+          position: "absolute",
+          top: 32,
+          left: "10%",
+          right: "10%",
+          height: 2,
+          background: `${BLACK}14`,
+          zIndex: 0,
+        }}>
+          <div style={{
+            height: "100%",
+            background: PINK,
+            width: `${(active / (JOURNEY_STAGES.length - 1)) * 100}%`,
+            transition: "width 0.5s cubic-bezier(0.22,1,0.36,1)",
+            borderRadius: 2,
+          }} />
+        </div>
+
+        {/* Nodes */}
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          position: "relative",
+          zIndex: 1,
+        }}>
+          {JOURNEY_STAGES.map((s, i) => {
+            const isDone = i < active;
+            const isActive = i === active;
+
+            return (
+              <button
+                key={s.id}
+                onClick={() => setActive(i)}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 0,
+                  flex: 1,
+                }}
+              >
+                <div style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: "50%",
+                  background: isActive ? PINK : isDone ? `${PINK}33` : "#fff",
+                  border: isActive || isDone ? `2px solid ${PINK}` : `2px solid ${BLACK}18`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.4rem",
+                  transition: "all 0.35s cubic-bezier(0.22,1,0.36,1)",
+                  transform: isActive ? "scale(1.12)" : "scale(1)",
+                  boxShadow: isActive ? `0 0 0 6px ${PINK}22` : "0 4px 12px rgba(0,0,0,0.08)",
+                }}>
+                  {s.icon}
+                </div>
+                <span style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.68rem",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  color: isActive ? PINK : isDone ? `${PINK}88` : `${BLACK}44`,
+                  textAlign: "center",
+                  lineHeight: 1.3,
+                  whiteSpace: "pre-line",
+                  transition: "color 0.3s ease",
+                }}>
+                  {s.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Detail card */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={current.id}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.4, ease: EASE }}
+          style={{
+            background: isResult ? PINK : "#fff",
+            borderRadius: BOX_SHAPE,
+            padding: "2.5rem",
+            boxShadow: "0 18px 40px rgba(0,0,0,0.08)",
+            border: isResult ? "none" : `1px solid ${BLACK}0D`,
+          }}
+        >
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.75rem",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: isResult ? `${CREAM}CC` : PINK,
+            marginBottom: "0.75rem",
+          }}>
+            {current.tag}
+          </p>
+          <p style={{
+            fontFamily: "'Oswald', sans-serif",
+            fontWeight: 600,
+            fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)",
+            color: isResult ? CREAM : BLACK,
+            textTransform: "uppercase",
+            letterSpacing: "0.02em",
+            margin: "0 0 1rem",
+          }}>
+            {current.title}
+          </p>
+          <p style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "1rem",
+            color: isResult ? `${CREAM}CC` : `${BLACK}99`,
+            lineHeight: 1.8,
+            margin: "0 0 1.5rem",
+          }}>
+            {current.intro}
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+            {current.points.map((pt) => (
+              <p
+                key={pt}
+                style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "0.93rem",
+                  color: isResult ? CREAM : BLACK,
+                  margin: 0,
+                  padding: "0.5rem 0",
+                  borderTop: `1px solid ${isResult ? `${CREAM}22` : `${BLACK}14`}`,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.6rem",
+                }}
+              >
+                <span style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: isResult ? CREAM : PINK,
+                  flexShrink: 0,
+                  display: "inline-block",
+                }} />
+                {pt}
+              </p>
+            ))}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Prev / Next + dots */}
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop: "1.5rem",
+        gap: "1rem",
+      }}>
+        <button
+          onClick={() => setActive((p) => Math.max(0, p - 1))}
+          disabled={active === 0}
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.8rem",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: active === 0 ? `${BLACK}28` : PINK,
+            background: "none",
+            border: "none",
+            cursor: active === 0 ? "default" : "pointer",
+            padding: 0,
+            transition: "color 0.2s",
+          }}
+        >
+          ← Prev
+        </button>
+
+        <div style={{ display: "flex", gap: 6 }}>
+          {JOURNEY_STAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              style={{
+                width: i === active ? 18 : 6,
+                height: 6,
+                borderRadius: 3,
+                background: i === active ? PINK : `${BLACK}20`,
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                transition: "all 0.3s cubic-bezier(0.22,1,0.36,1)",
+              }}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={() => setActive((p) => Math.min(JOURNEY_STAGES.length - 1, p + 1))}
+          disabled={active === JOURNEY_STAGES.length - 1}
+          style={{
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "0.8rem",
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: active === JOURNEY_STAGES.length - 1 ? `${BLACK}28` : PINK,
+            background: "none",
+            border: "none",
+            cursor: active === JOURNEY_STAGES.length - 1 ? "default" : "pointer",
+            padding: 0,
+            transition: "color 0.2s",
+          }}
+        >
+          Next →
+        </button>
+      </div>
+
+    </section>
+  );
+}
+
 export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
@@ -84,7 +418,6 @@ export default function Home() {
         ref={heroRef}
         style={{ position: "relative", overflow: "hidden", minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}
       >
-        {/* WORKHORSE wallpaper */}
         <div
           aria-hidden="true"
           style={{ position: "absolute", inset: 0, paddingTop: "4.5rem", opacity: 1 - scrollProgress, userSelect: "none", pointerEvents: "none" }}
@@ -113,7 +446,6 @@ export default function Home() {
           })}
         </div>
 
-        {/* Orange blob */}
         <motion.div
           initial={{ scale: 0.88, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
@@ -188,8 +520,6 @@ export default function Home() {
 
       {/* ── Services: four-category layout ── */}
       <section style={{ background: CREAM, padding: "6rem 2rem" }}>
-
-        {/* SVG cutout heading */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -207,21 +537,14 @@ export default function Home() {
                 <ellipse cx="768" cy="188" rx="68" ry="48" />
               </clipPath>
             </defs>
-
-            {/* cream bg */}
             <rect width="900" height="280" fill={CREAM} />
-
-            {/* cream covers everything outside blobs */}
             <rect width="900" height="280" fill={CREAM} />
-
-            {/* blobs */}
             <ellipse cx="310" cy="155" rx="255" ry="100" fill="#d01c61ff" />
             <ellipse cx="185" cy="200" rx="135" ry="68" fill="#d01c61ff" />
             <ellipse cx="390" cy="105" rx="160" ry="70" fill="#d01c61ff" />
             <ellipse cx="700" cy="145" rx="110" ry="88" fill="#d01c61ff" />
             <ellipse cx="768" cy="188" rx="68" ry="48" fill="#d01c61ff" />
-            {/* foreground rows clipped to blobs */}
-            <text y="78"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
+            <text y="78" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
             <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
             <text y="246" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
           </svg>
@@ -234,82 +557,29 @@ export default function Home() {
           viewport={{ once: true, amount: 0.2 }}
           style={{ maxWidth: "1100px", margin: "0 auto" }}
         >
-          <div
-            className="grid sm:grid-cols-2 lg:grid-cols-4"
-            style={{ gap: "3rem" }}
-          >
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4" style={{ gap: "3rem" }}>
             {SERVICES_DATA.map((group) => (
               <div key={group.id}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1.1rem" }}>
-                  <div
-                    style={{
-                      width: "12px",
-                      height: "12px",
-                      borderRadius: "50%",
-                      background: PINK,
-                      flexShrink: 0,
-                    }}
-                  />
-                  <p
-                    style={{
-                      fontFamily: "'Oswald', sans-serif",
-                      fontWeight: 700,
-                      fontSize: "1.6rem",
-                      color: BLACK,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.02em",
-                      lineHeight: 1,
-                      margin: 0,
-                    }}
-                  >
+                  <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: PINK, flexShrink: 0 }} />
+                  <p style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "1.6rem", color: BLACK, textTransform: "uppercase", letterSpacing: "0.02em", lineHeight: 1, margin: 0 }}>
                     {group.tag}
                   </p>
                 </div>
                 <div>
                   {group.items.map((item, i) => (
                     i === 0 ? (
-                      <div
-                        key={item}
-                        style={{
-                          borderLeft: `3px solid ${PINK}`,
-                          background: `linear-gradient(90deg, ${PINK}0F, transparent)`,
-                          paddingLeft: "0.9rem",
-                          marginBottom: "0.1rem",
-                        }}
-                      >
-                        <p
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: "0.92rem",
-                            fontWeight: 500,
-                            color: BLACK,
-                            margin: 0,
-                            padding: "0.8rem 0",
-                          }}
-                        >
-                          {item}
-                        </p>
+                      <div key={item} style={{ borderLeft: `3px solid ${PINK}`, background: `linear-gradient(90deg, ${PINK}0F, transparent)`, paddingLeft: "0.9rem", marginBottom: "0.1rem" }}>
+                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.92rem", fontWeight: 500, color: BLACK, margin: 0, padding: "0.8rem 0" }}>{item}</p>
                       </div>
                     ) : (
-                      <p
-                        key={item}
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: "0.9rem",
-                          color: `${BLACK}99`,
-                          margin: 0,
-                          padding: "0.8rem 0 0.8rem 1.05rem",
-                        }}
-                      >
-                        {item}
-                      </p>
+                      <p key={item} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", color: `${BLACK}99`, margin: 0, padding: "0.8rem 0 0.8rem 1.05rem" }}>{item}</p>
                     )
                   ))}
                 </div>
               </div>
             ))}
           </div>
-
           <div style={{ marginTop: "3rem" }}>
             <Link
               to="/services"
@@ -322,6 +592,9 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* ── Journey Graphic ── */}
+      <JourneyGraphic />
 
       {/* ── No Bullshit ── */}
       <section style={{ background: "#FFFFED", padding: "8rem 2rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -358,50 +631,13 @@ export default function Home() {
           viewport={{ once: true, amount: 0.2 }}
           style={{ maxWidth: "1100px", margin: "0 auto", position: "relative", height: "clamp(480px, 62vw, 760px)" }}
         >
-          {/* Blob 1 — large, upper left */}
-          <div style={{
-            position: "absolute",
-            top: "0%",
-            left: "0%",
-            width: "56%",
-            height: "62%",
-            borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%",
-            overflow: "hidden",
-            transform: "rotate(-3deg)",
-            boxShadow: "0 24px 60px rgba(0,0,0,0.12)",
-          }}>
+          <div style={{ position: "absolute", top: "0%", left: "0%", width: "56%", height: "62%", borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%", overflow: "hidden", transform: "rotate(-3deg)", boxShadow: "0 24px 60px rgba(0,0,0,0.12)" }}>
             <img src={image1} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(3deg) scale(1.12)" }} />
           </div>
-
-          {/* Blob 2 — medium, right side, overlapping blob 1 */}
-          <div style={{
-            position: "absolute",
-            top: "6%",
-            right: "2%",
-            width: "42%",
-            height: "46%",
-            borderRadius: "38% 62% 40% 60% / 62% 45% 55% 38%",
-            overflow: "hidden",
-            transform: "rotate(5deg)",
-            zIndex: 2,
-            boxShadow: "0 24px 60px rgba(0,0,0,0.12)",
-          }}>
+          <div style={{ position: "absolute", top: "6%", right: "2%", width: "42%", height: "46%", borderRadius: "38% 62% 40% 60% / 62% 45% 55% 38%", overflow: "hidden", transform: "rotate(5deg)", zIndex: 2, boxShadow: "0 24px 60px rgba(0,0,0,0.12)" }}>
             <img src={image2} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(-5deg) scale(1.15)" }} />
           </div>
-
-          {/* Blob 3 — small, bottom, overlapping both */}
-          <div style={{
-            position: "absolute",
-            bottom: "0%",
-            left: "30%",
-            width: "38%",
-            height: "42%",
-            borderRadius: "63% 37% 46% 54% / 48% 40% 60% 52%",
-            overflow: "hidden",
-            transform: "rotate(-6deg)",
-            zIndex: 3,
-            boxShadow: "0 24px 60px rgba(0,0,0,0.14)",
-          }}>
+          <div style={{ position: "absolute", bottom: "0%", left: "30%", width: "38%", height: "42%", borderRadius: "63% 37% 46% 54% / 48% 40% 60% 52%", overflow: "hidden", transform: "rotate(-6deg)", zIndex: 3, boxShadow: "0 24px 60px rgba(0,0,0,0.14)" }}>
             <img src={image3} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", transform: "rotate(6deg) scale(1.18)" }} />
           </div>
         </motion.div>
@@ -422,7 +658,7 @@ export default function Home() {
           </div>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
-            <a href="mailto:Helloworkhorseco@gmail.com" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>becc@workhorsemarketing.au</a>
+            <a href="mailto:Helloworkhorseco@gmail.com" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>helloworkhorseco@gmail.com</a>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
           </div>
           <div>
