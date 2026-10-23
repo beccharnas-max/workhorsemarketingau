@@ -7,7 +7,7 @@ import contentPhoto from "../../public/image1.jpg";
 import photo2160 from "../../public/contentimage.jpg";
 import photo566 from "../../public/Laptop1.jpg";
 import image1 from "../../public/becc.png";
-import image2 from "../../public/Chair1.jpg";
+import image2 from "../../public/chair1.jpg";
 import image3 from "../../public/Beccmaincrop.jpg";
 
 const PINK = "#d01c61";
