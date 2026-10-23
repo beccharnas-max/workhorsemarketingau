@@ -1,551 +1,409 @@
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
-import { CREAM, BLACK, EASE, BOX_SHAPE, TRUST_POINTS } from "../constants";
+import { CREAM, BLACK, EASE } from "../constants";
 
-const PINK = "#d01c61ff";
-const SERVICES_TEXT_COLOR = "#FCE4EE";
+const PINK = "#d01c61";
+// Third brand colour (same as Home and About). Tip: move PINK and LIME into ../constants so every page shares them.
+const LIME = "#D2F53C";
 
-/**
- * Accordion content — Strategy sits above as its own entry-point section,
- * these three are the execution phases, in delivery order:
- * Foundations (get found) → Convert (make sure it works) → Growth (pay to send traffic).
- */
+/** Four services, same as the home page, with a little more detail. */
 const SERVICES_DETAIL_DATA = [
   {
-    id: "foundations",
-    title: "Foundations",
-    intro: "Get the basics right first so you can get found.",
-    groups: [
-      {
-        label: undefined,
-        items: [
-          "Google Business Profile setup",
-          "Local SEO",
-          "Website audit",
-          "Analytics & tracking setup",
-        ],
-      },
-    ],
-  },
-  {
-    id: "convert",
-    title: "Convert",
-    intro: "Make sure the people who find you actually become customers.",
-    groups: [
-      {
-        label: "Strategy",
-        items: ["Conversion audit", "Funnel mapping", "Offer & CTA strategy"],
-      },
-      {
-        label: "Execution",
-        items: [
-          "Landing page design & optimization",
-          "Lead capture forms",
-          "CRM / lead routing setup",
-          "Follow-up automation",
-          "Trust signals (reviews & testimonials)",
-        ],
-      },
-    ],
-  },
-  {
-    id: "growth",
-    title: "Growth",
+    id: "plan",
+    number: "01",
+    title: "A plan that fits",
+    bg: PINK, fg: CREAM, badgeBg: LIME, badgeFg: BLACK, radius: "40px 14px 40px 14px",
     intro:
-      "Paid Social and ROI — we run targeted local ad campaigns designed to bring in real customers, not just clicks, and make sure every dollar spent is tracked so you know exactly what it's earning you back.",
+      "Before I touch anything, I work out what matters for your business, so you grow and show up in the right places, not everywhere. It also means you only pay for work you actually need.",
     groups: [
       {
-        label: "Strategy",
-        items: ["Paid ads strategy", "Audience analysis", "Competitor landscapes"],
+        label: undefined as string | undefined,
+        items: [
+          "Marketing strategy & plan",
+          "Market & competitor research",
+          "Audience & customer research",
+          "Positioning & messaging",
+          "Channel priorities",
+          "Goals & KPIs",
+        ],
+      },
+    ],
+  },
+  {
+    id: "found",
+    number: "02",
+    title: "Get found",
+    bg: LIME, fg: BLACK, badgeBg: BLACK, badgeFg: LIME, radius: "14px 40px 14px 40px",
+    intro:
+      "When someone nearby searches for what you do, your business shows up and looks like the obvious choice.",
+    groups: [
+      {
+        label: undefined as string | undefined,
+        items: ["Google Business Profile setup", "Local SEO"],
+      },
+    ],
+  },
+  {
+    id: "campaigns",
+    number: "03",
+    title: "Campaigns, start to finish",
+    bg: BLACK, fg: LIME, badgeBg: LIME, badgeFg: BLACK, radius: "40px 14px 40px 14px",
+    intro:
+      "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in calls and bookings, not just clicks.",
+    groups: [
+      {
+        label: "Plan" as string | undefined,
+        items: ["Paid ads strategy", "Audience analysis", "Competitor landscape"],
       },
       {
-        label: "Execution",
+        label: "Run" as string | undefined,
         items: [
-          "Marketing campaigns",
           "Local Meta ad campaigns",
           "Ad creative direction",
-          "Ad tracking and set up",
+          "Lead capture & follow-up automation",
+        ],
+      },
+    ],
+  },
+  {
+    id: "numbers",
+    number: "04",
+    title: "Know your numbers, spend less",
+    bg: PINK, fg: CREAM, badgeBg: LIME, badgeFg: BLACK, radius: "14px 40px 14px 40px",
+    intro:
+      "Every call, form and booking is traced back to the ad that caused it, so you know exactly what your money is earning. Then I cut what isn't working.",
+    groups: [
+      {
+        label: undefined as string | undefined,
+        items: [
+          "Analytics & tracking setup",
+          "Ad tracking & attribution",
+          "Cost-per-lead reporting",
+          "Ad spend optimisation",
+          "Monthly plain-English report",
         ],
       },
     ],
   },
 ];
 
-/** Results block — edit these to real numbers/proof once you have them. */
-const RESULTS_POINTS = [
-  { stat: "2–3x", label: "Average increase in qualified leads within 90 days" },
-  { stat: "100%", label: "Of ad spend tracked back to real customer actions" },
-  { stat: "30 days", label: "Typical time to see measurable movement" },
+const STEPS = [
+  {
+    number: "01",
+    title: "A chat",
+    text: "We talk about your business, your customers and what isn't working. No pressure, no pitch deck.",
+    bg: PINK, fg: CREAM, muted: `${CREAM}D9`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+  },
+  {
+    number: "02",
+    title: "A plan",
+    text: "I put together a plan that fits your goals and budget, and tell you straight what's worth doing.",
+    bg: LIME, fg: BLACK, muted: `${BLACK}B3`, badgeBg: BLACK, badgeFg: LIME, radius: "16px 56px 16px 56px",
+  },
+  {
+    number: "03",
+    title: "Launch & report",
+    text: "I set up and run the campaigns, and you get a plain-English report every month.",
+    bg: CREAM, fg: BLACK, muted: `${BLACK}B3`, badgeBg: PINK, badgeFg: CREAM, radius: "56px 16px 56px 16px",
+  },
+];
+
+const FOOTER_SERVICES = [
+  "A plan that fits",
+  "Get found",
+  "Campaigns, start to finish",
+  "Know your numbers, spend less",
 ];
 
 export default function Services() {
   return (
-    <div style={{ background: CREAM, paddingTop: "4.5rem" }}>
+    <div style={{ background: CREAM, paddingTop: "4.5rem", overflowX: "clip" }}>
+      <style>{`
+        .wh-acc-icon { transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); }
+        [data-state="open"] > .wh-acc-icon, [data-state="open"] .wh-acc-icon { transform: rotate(45deg); }
+      `}</style>
 
-      {/* ── Hero SVG blob heading ── */}
-      <section style={{ padding: "6rem 2rem 2rem", maxWidth: "900px", margin: "0 auto" }}>
+      {/* ── Hero panel ── */}
+      <section style={{ padding: "3rem 1rem 4rem" }}>
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          style={{ overflow: "visible" }}
-        >
-          <svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", display: "block" }}>
-            <defs>
-              <clipPath id="services-blobs-clip">
-                <ellipse cx="300" cy="160" rx="240" ry="95" />
-                <ellipse cx="170" cy="205" rx="120" ry="62" />
-                <ellipse cx="460" cy="110" rx="150" ry="72" />
-                <ellipse cx="690" cy="150" rx="115" ry="90" />
-                <ellipse cx="760" cy="195" rx="70" ry="50" />
-              </clipPath>
-            </defs>
-
-            <rect width="900" height="300" fill={CREAM} />
-
-            {/* blobs */}
-            <ellipse cx="300" cy="160" rx="240" ry="95" fill={PINK} />
-            <ellipse cx="170" cy="205" rx="120" ry="62" fill={PINK} />
-            <ellipse cx="460" cy="110" rx="150" ry="72" fill={PINK} />
-            <ellipse cx="690" cy="150" rx="115" ry="90" fill={PINK} />
-            <ellipse cx="760" cy="195" rx="70" ry="50" fill={PINK} />
-
-            {/* foreground rows clipped to blobs */}
-            <text y="72"  fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
-            <text x="-170" y="162" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
-            <text y="252" fontFamily="'Anton','Impact',sans-serif" fontSize="78" fill={SERVICES_TEXT_COLOR} clipPath="url(#services-blobs-clip)">SERVICES SERVICES SERVICES SERVICES SERVICES</text>
-          </svg>
-        </motion.div>
-      </section>
-
-      {/* ── Intro copy ── */}
-      <section style={{ padding: "1.5rem 2rem 2rem", maxWidth: "720px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.8rem",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: PINK,
-            marginBottom: "1.5rem",
-          }}>
-            What we do
-          </p>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "clamp(1.2rem, 2vw, 1.35rem)",
-            color: `${BLACK}99`,
-            lineHeight: 1.85,
-            margin: 0,
-          }}>
-            We help local businesses get found, grow, and convert more customers online. Our services are designed to be practical, actionable, and results-driven.
-          </p>
-        </motion.div>
-      </section>
-
-      {/* ── Strategy: entry-point section, sits above the accordion ── */}
-      <section style={{ padding: "1rem 2rem 2rem", maxWidth: "720px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          viewport={{ once: true, amount: 0.2 }}
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, ease: EASE }}
           style={{
-            background: "#FFFFFF",
-            borderRadius: BOX_SHAPE,
-            padding: "2.5rem",
-            boxShadow: "0 18px 40px rgba(0,0,0,0.08)",
-            border: `1px solid ${BLACK}0D`,
+            position: "relative",
+            overflow: "hidden",
+            background: PINK,
+            borderRadius: "clamp(3rem,9vw,9rem) clamp(2rem,4vw,4rem) clamp(4rem,12vw,12rem) clamp(2rem,5vw,5rem)",
+            maxWidth: "1300px",
+            margin: "0 auto",
+            minHeight: "72vh",
+            display: "flex",
+            alignItems: "center",
+            padding: "clamp(4rem,9vw,8rem) clamp(2rem,8vw,8rem)",
+            boxShadow: "0 40px 90px rgba(208,28,97,0.28)",
           }}
         >
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.8rem",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: PINK,
-            marginBottom: "1rem",
-          }}>
-            Strategy
-          </p>
-          <p style={{
-            fontFamily: "'Oswald', sans-serif",
-            fontWeight: 600,
-            fontSize: "clamp(1.3rem, 2.5vw, 1.7rem)",
-            color: BLACK,
-            textTransform: "uppercase",
-            letterSpacing: "0.02em",
-            margin: "0 0 1rem",
-          }}>
-            Before we touch anything, we figure out what matters
-          </p>
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "1rem",
-            color: `${BLACK}99`,
-            lineHeight: 1.8,
-            margin: "0 0 1.5rem",
-          }}>
-            Every engagement starts here — a discovery pass that shapes what you actually need from Foundations, Convert, and Growth below, so you're not paying for work you don't need.
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            {[
-              "Market & competitor audit",
-              "Positioning & messaging",
-              "Customer / audience research",
-              "Channel prioritization",
-              "Goals & KPI definition",
-            ].map((item) => (
-              <p
-                key={item}
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "0.95rem",
-                  color: BLACK,
-                  margin: 0,
-                  padding: "0.5rem 0",
-                  borderTop: `1px solid ${BLACK}14`,
-                }}
+          <motion.div
+            aria-hidden="true"
+            animate={{ rotate: [0, 8, 0], y: [0, -10, 0] }}
+            transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+            style={{ position: "absolute", right: "-6rem", bottom: "-6rem", width: "clamp(12rem,30vw,26rem)", height: "clamp(12rem,30vw,26rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
+          />
+          <div style={{ position: "relative", zIndex: 1, maxWidth: "900px" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.22em", color: `${CREAM}B3`, textTransform: "uppercase", margin: "0 0 1.5rem" }}>
+              Services
+            </p>
+            <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(3rem,9vw,7.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 2rem" }}>
+              Here's what I do.
+              <br />
+              <span style={{ color: LIME }}>In plain English.</span>
+            </h1>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1.1rem,2vw,1.4rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 2.5rem", maxWidth: "640px" }}>
+              I help small businesses get found, get more enquiries and see exactly where every ad dollar goes. Four things, no jargon.
+            </p>
+            <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+              <Link
+                to="/contact"
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, textDecoration: "none", padding: "0.85rem 2.2rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
               >
-                {item}
-              </p>
-            ))}
+                Let's talk →
+              </Link>
+              <Link
+                to="/about"
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.16em", textTransform: "uppercase", color: CREAM, border: `1.5px solid ${CREAM}`, background: "transparent", padding: "0.85rem 1.9rem", textDecoration: "none", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.color = PINK; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = CREAM; }}
+              >
+                About me
+              </Link>
+            </div>
           </div>
         </motion.div>
       </section>
 
-      {/* ── Accordion: Foundations / Convert / Growth ── */}
-      <section style={{ padding: "2rem 2rem 5rem", maxWidth: "900px", margin: "0 auto" }}>
+      {/* ── Accordion: the four services ── */}
+      <section style={{ padding: "3rem 2rem 6rem", maxWidth: "900px", margin: "0 auto" }}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
-          <Accordion.Root type="single" collapsible defaultValue="foundations">
-            {SERVICES_DETAIL_DATA.map((category) => (
-              <div key={category.id}>
-                <Accordion.Item value={category.id}>
-                  <Accordion.Header>
-                    <Accordion.Trigger
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: "1rem",
-                        padding: "1.5rem 1.75rem",
-                        background: PINK,
-                        borderRadius: "20px",
-                        border: "none",
-                        cursor: "pointer",
-                        textAlign: "left",
-                        margin: "1rem 0",
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: "'Oswald', sans-serif",
-                          fontWeight: 700,
-                          fontSize: "clamp(1.8rem, 4.5vw, 2.8rem)",
-                          color: CREAM,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.02em",
-                          lineHeight: 1,
-                        }}
-                      >
-                        {category.title}
-                      </span>
-                      {/* Cream blob indicator */}
-                      <svg width="30" height="30" viewBox="0 0 24 24" style={{ flexShrink: 0 }} xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12 3C15.2 2.4 20.5 5.1 21 10.5C21.5 15.5 18.2 21.2 12.8 21C7.5 20.8 2.8 17 2.5 11.5C2.2 6.2 6.8 3.8 12 3Z"
-                          fill={CREAM}
-                        />
-                      </svg>
-                    </Accordion.Trigger>
-                  </Accordion.Header>
-                  <Accordion.Content
-                    className="data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up"
-                    style={{ overflow: "hidden" }}
-                  >
-                    <div style={{ padding: "1.75rem 1.75rem 2rem", maxWidth: "38rem" }}>
-                      {category.intro && (
-                        <p
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: "1.05rem",
-                            color: `${BLACK}99`,
-                            lineHeight: 1.8,
-                            margin: "0 0 1.75rem",
-                          }}
-                        >
-                          {category.intro}
-                        </p>
-                      )}
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: PINK, marginBottom: "1rem" }}>
+            What's included
+          </p>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", textTransform: "uppercase", color: BLACK, lineHeight: 1, margin: "0 0 2.5rem" }}>
+            Tap a service
+            <br />
+            <span style={{ color: PINK }}>to see the detail.</span>
+          </h2>
 
-                      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                        {category.groups.map((group) => (
-                          <div key={group.label ?? "default"}>
-                            {group.label && (
+          <Accordion.Root type="single" collapsible defaultValue="plan">
+            {SERVICES_DETAIL_DATA.map((svc) => (
+              <Accordion.Item key={svc.id} value={svc.id}>
+                <Accordion.Header style={{ margin: 0 }}>
+                  <Accordion.Trigger
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      gap: "1rem",
+                      padding: "1.4rem 1.75rem",
+                      background: svc.bg,
+                      borderRadius: svc.radius,
+                      border: "none",
+                      cursor: "pointer",
+                      textAlign: "left",
+                      margin: "0.6rem 0",
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                      <span style={{ width: 44, height: 44, borderRadius: "50%", background: svc.badgeBg, color: svc.badgeFg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.04em", flexShrink: 0 }}>
+                        {svc.number}
+                      </span>
+                      <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.4rem, 3.6vw, 2.3rem)", color: svc.fg, textTransform: "uppercase", letterSpacing: "0.02em", lineHeight: 1 }}>
+                        {svc.title}
+                      </span>
+                    </span>
+                    <span
+                      className="wh-acc-icon"
+                      style={{ width: 38, height: 38, borderRadius: "50%", background: svc.fg, color: svc.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", lineHeight: 1 }}
+                    >
+                      +
+                    </span>
+                  </Accordion.Trigger>
+                </Accordion.Header>
+                <Accordion.Content
+                  className="data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up"
+                  style={{ overflow: "hidden" }}
+                >
+                  <div style={{ padding: "1.5rem 1.75rem 2rem", maxWidth: "38rem" }}>
+                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}B3`, lineHeight: 1.8, margin: "0 0 1.75rem" }}>
+                      {svc.intro}
+                    </p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                      {svc.groups.map((group) => (
+                        <div key={group.label ?? "default"}>
+                          {group.label && (
+                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: PINK, margin: "0 0 0.6rem" }}>
+                              {group.label}
+                            </p>
+                          )}
+                          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                            {group.items.map((item) => (
                               <p
-                                style={{
-                                  fontFamily: "'DM Sans', sans-serif",
-                                  fontSize: "0.75rem",
-                                  letterSpacing: "0.14em",
-                                  textTransform: "uppercase",
-                                  color: `${BLACK}66`,
-                                  margin: "0 0 0.6rem",
-                                }}
+                                key={item}
+                                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: BLACK, margin: 0, padding: "0.55rem 0", borderTop: `1px solid ${BLACK}14`, display: "flex", alignItems: "center", gap: "0.7rem" }}
                               >
-                                {group.label}
+                                <span style={{ width: 7, height: 7, borderRadius: "50%", background: PINK, flexShrink: 0 }} />
+                                {item}
                               </p>
-                            )}
-                            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                              {group.items.map((item) => (
-                                <p
-                                  key={item}
-                                  style={{
-                                    fontFamily: "'DM Sans', sans-serif",
-                                    fontSize: "0.95rem",
-                                    color: BLACK,
-                                    margin: 0,
-                                    padding: "0.5rem 0",
-                                    borderTop: `1px solid ${BLACK}14`,
-                                  }}
-                                >
-                                  {item}
-                                </p>
-                              ))}
-                            </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
+                        </div>
+                      ))}
                     </div>
-                  </Accordion.Content>
-                </Accordion.Item>
-              </div>
+                  </div>
+                </Accordion.Content>
+              </Accordion.Item>
             ))}
           </Accordion.Root>
         </motion.div>
       </section>
 
-      {/* ── Trust badges: pop-up content boxes ── */}
-      <section style={{ padding: "1rem 2rem 5rem", maxWidth: "900px", margin: "0 auto" }}>
+      {/* ── How it works + content note ── */}
+      <section style={{ background: BLACK, padding: "7rem 2rem" }}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: EASE }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid md:grid-cols-3"
-          style={{ gap: "1.5rem" }}
+          viewport={{ once: true, amount: 0.1 }}
+          style={{ maxWidth: "1000px", margin: "0 auto" }}
         >
-          {TRUST_POINTS.map((point) => (
-            <motion.div
-              key={point.title}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.25, ease: EASE }}
-              style={{
-                background: "#FFFFFF",
-                borderRadius: "20px",
-                padding: "2rem 1.75rem",
-                boxShadow: "0 18px 40px rgba(0,0,0,0.08)",
-                border: `1px solid ${BLACK}0D`,
-              }}
-            >
-              <div style={{
-                width: "34px",
-                height: "34px",
-                borderRadius: "50%",
-                background: PINK,
-                marginBottom: "1.25rem",
-              }} />
-              <p style={{
-                fontFamily: "'Oswald', sans-serif",
-                fontWeight: 600,
-                fontSize: "1.15rem",
-                color: BLACK,
-                textTransform: "uppercase",
-                letterSpacing: "0.02em",
-                margin: "0 0 0.75rem",
-              }}>
-                {point.title}
-              </p>
-              <p style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.95rem",
-                color: `${BLACK}99`,
-                lineHeight: 1.75,
-                margin: 0,
-              }}>
-                {point.body}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* ── Results: outcomes/proof block ── */}
-      <section style={{ padding: "1rem 2rem 5rem", maxWidth: "900px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          viewport={{ once: true, amount: 0.2 }}
-          style={{
-            background: PINK,
-            borderRadius: BOX_SHAPE,
-            padding: "3rem 2.5rem",
-          }}
-        >
-          <p style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "0.8rem",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: `${CREAM}CC`,
-            marginBottom: "1rem",
-          }}>
-            Results
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: LIME, marginBottom: "1rem" }}>
+            How it works
           </p>
-          <p style={{
-            fontFamily: "'Oswald', sans-serif",
-            fontWeight: 700,
-            fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
-            color: CREAM,
-            textTransform: "uppercase",
-            lineHeight: 1.1,
-            margin: "0 0 2rem",
-            maxWidth: "32rem",
-          }}>
-            Every phase is built to show its work.
-          </p>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem, 5.5vw, 4rem)", textTransform: "uppercase", color: CREAM, lineHeight: 0.95, margin: "0 0 3rem" }}>
+            Three steps.
+            <br />
+            <span style={{ color: LIME }}>No surprises.</span>
+          </h2>
 
           <div className="grid md:grid-cols-3" style={{ gap: "1.5rem" }}>
-            {RESULTS_POINTS.map((r) => (
-              <div key={r.label}>
-                <p style={{
-                  fontFamily: "'Anton', sans-serif",
-                  fontSize: "clamp(2.2rem, 4vw, 3rem)",
-                  color: CREAM,
-                  margin: "0 0 0.5rem",
-                  lineHeight: 1,
-                }}>
-                  {r.stat}
+            {STEPS.map((s, i) => (
+              <motion.div
+                key={s.number}
+                whileHover={{ y: -8, rotate: i % 2 === 0 ? -1 : 1 }}
+                transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                style={{ background: s.bg, color: s.fg, borderRadius: s.radius, padding: "2rem", display: "flex", flexDirection: "column" }}
+              >
+                <span style={{ width: 44, height: 44, borderRadius: "50%", background: s.badgeBg, color: s.badgeFg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.04em", marginBottom: "1.2rem" }}>
+                  {s.number}
+                </span>
+                <p style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.5rem, 2.4vw, 1.8rem)", color: s.fg, textTransform: "uppercase", letterSpacing: "0.02em", lineHeight: 1.05, margin: "0 0 1rem" }}>
+                  {s.title}
                 </p>
-                <p style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "0.9rem",
-                  color: `${CREAM}CC`,
-                  lineHeight: 1.6,
-                  margin: 0,
-                }}>
-                  {r.label}
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: s.muted, lineHeight: 1.7, margin: 0 }}>
+                  {s.text}
                 </p>
-              </div>
+              </motion.div>
             ))}
+          </div>
+
+          {/* Content & creative */}
+          <div style={{ marginTop: "1.5rem", border: `1.5px solid ${CREAM}33`, borderRadius: "16px 56px 16px 56px", padding: "clamp(1.6rem,3vw,2.2rem)" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: LIME, margin: "0 0 0.7rem" }}>
+              Need photos, video or design?
+            </p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: `${CREAM}B3`, lineHeight: 1.7, margin: 0 }}>
+              I'm not a graphic designer, and I don't build or fix websites. I'll put you in touch with the right people, and help source photography and videography, writing the briefs and working directly with my contacts.
+            </p>
           </div>
         </motion.div>
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ padding: "2rem 2rem 8rem", maxWidth: "900px", margin: "0 auto" }}>
+      <section style={{ background: "#FFFFED", padding: "7rem 2rem 8rem", display: "flex", justifyContent: "center" }}>
         <motion.div
-          initial={{ opacity: 0, x: -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 32, scale: 0.94 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, ease: EASE }}
           viewport={{ once: true, amount: 0.3 }}
           style={{
-            background: PINK,
-            borderRadius: BOX_SHAPE,
-            padding: "3rem 2.5rem",
-            display: "flex",
-            flexDirection: "column" as const,
-            gap: "1.5rem",
+            maxWidth: "760px",
+            width: "100%",
+            textAlign: "center",
+            background: LIME,
+            borderRadius: "46% 54% 58% 42% / 44% 40% 60% 56%",
+            padding: "clamp(3.5rem,8vw,6rem) clamp(2.5rem,6vw,5rem)",
+            boxShadow: "0 30px 70px rgba(0,0,0,0.14)",
           }}
         >
-          <h2
-            style={{
-              fontFamily: "'Oswald', sans-serif",
-              fontWeight: 700,
-              fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
-              color: CREAM,
-              textTransform: "uppercase",
-              lineHeight: 0.95,
-              margin: 0,
-            }}
-          >
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.4rem,5.5vw,3.8rem)", color: BLACK, textTransform: "uppercase", lineHeight: 1, margin: "0 0 1rem" }}>
             Ready to
             <br />get started?
           </h2>
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "1.15rem",
-              color: `${CREAM}CC`,
-              lineHeight: 1.75,
-              margin: 0,
-              maxWidth: "28rem",
-            }}
-          >
-            Drop us a line. No pitch decks, no discovery calls that go nowhere — just a straight conversation about your business.
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: `${BLACK}E6`, lineHeight: 1.7, margin: "0 0 2rem" }}>
+            Drop me a line. No pitch decks, no discovery calls that go nowhere, just a straight conversation about your business.
           </p>
-          <a
-            href="mailto:hello@workhorse.co"
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "0.85rem",
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              color: CREAM,
-              textDecoration: "none",
-              border: `1px solid ${CREAM}66`,
-              padding: "0.65rem 1.4rem",
-              alignSelf: "flex-start",
-              transition: "background 0.2s, color 0.2s",
-              borderRadius: "9999px",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = CREAM;
-              e.currentTarget.style.color = PINK;
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.color = CREAM;
-            }}
-          >
-            hello@workhorse.co →
-          </a>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+            <Link
+              to="/contact"
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CREAM, background: BLACK, border: `1.5px solid ${BLACK}`, textDecoration: "none", padding: "0.8rem 2rem", transition: "background 0.2s, border-color 0.2s", borderRadius: "9999px" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = PINK; e.currentTarget.style.borderColor = PINK; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.borderColor = BLACK; }}
+            >
+              Let's talk →
+            </Link>
+            <a
+              href="mailto:helloworkhorseco@gmail.com"
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: "transparent", border: `1.5px solid ${BLACK}`, textDecoration: "none", padding: "0.8rem 1.8rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.color = LIME; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = BLACK; }}
+            >
+              Email me
+            </a>
+          </div>
         </motion.div>
       </section>
 
       {/* ── Footer ── */}
-      <footer
-        style={{
-          background: CREAM,
-          borderTop: `1px solid ${BLACK}14`,
-          padding: "2.5rem 2rem",
-          display: "flex",
-          justifyContent: "space-between",
-          flexWrap: "wrap" as const,
-          gap: "1rem",
-        }}
-      >
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: `${BLACK}40`, textTransform: "uppercase", letterSpacing: "0.12em" }}>
-          © 2024 Workhorse Marketing.
-        </span>
-        <Link
-          to="/"
-          style={{ fontFamily: "'Anton', sans-serif", fontSize: "1rem", color: `${BLACK}1A`, letterSpacing: "0.06em", textDecoration: "none" }}
-        >
+      <footer style={{ background: CREAM, borderTop: `1px solid ${BLACK}14`, padding: "5rem 2rem 2.5rem" }}>
+        <div style={{ fontFamily: "'Anton', sans-serif", fontSize: "clamp(3.5rem,9vw,6rem)", color: BLACK, lineHeight: 1, letterSpacing: "0.04em", marginBottom: "0.4rem" }}>
           WORKHORSE
-        </Link>
+        </div>
+        <div style={{ height: "3px", background: PINK, marginBottom: "3rem" }} />
+        <div className="grid md:grid-cols-3" style={{ gap: "3rem", marginBottom: "4rem" }}>
+          <div>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Services</p>
+            {FOOTER_SERVICES.map((item) => (
+              <p key={item} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}99`, margin: "0 0 0.5rem", cursor: "pointer" }}>{item}</p>
+            ))}
+          </div>
+          <div>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
+            <a href="mailto:helloworkhorseco@gmail.com" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>helloworkhorseco@gmail.com</a>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
+          </div>
+          <div>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Follow</p>
+            {["Instagram", "LinkedIn", "TikTok"].map((p) => (
+              <p key={p} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}99`, margin: "0 0 0.5rem", cursor: "pointer" }}>{p}</p>
+            ))}
+          </div>
+        </div>
+        <div style={{ borderTop: `1px solid ${BLACK}14`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: `${BLACK}40`, textTransform: "uppercase", letterSpacing: "0.12em", margin: 0 }}>
+            © {new Date().getFullYear()} Workhorse Marketing. All rights reserved.
+          </p>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.82rem", color: `${BLACK}40`, textTransform: "uppercase", letterSpacing: "0.12em", margin: 0 }}>
+            Marketing Consultant for Small Business
+          </p>
+        </div>
       </footer>
     </div>
   );
