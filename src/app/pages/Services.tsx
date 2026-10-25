@@ -59,7 +59,7 @@ const SERVICES_DETAIL_DATA = [
       {
         label: "Run" as string | undefined,
         items: [
-          "Local Meta ad campaigns",
+          "Local Meta & Google ad campaigns",
           "Ad creative direction",
           "Lead capture & follow-up automation",
         ],
