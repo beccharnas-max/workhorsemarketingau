@@ -25,28 +25,28 @@ const SERVICES_DATA = [
     number: "01",
     title: "A plan that fits",
     text: "Marketing strategy built around your business, so you grow and show up in the right places, not everywhere.",
-    THINK: "Strategy & planning · Audience & competitor research",
+    includes: "Strategy & planning · Audience & competitor research",
   },
   {
     id: "found",
     number: "02",
     title: "Get found",
     text: "When someone nearby searches for what you do, your business shows up. I set up your Google listing and local search so you're easy to find and easy to choose.",
-    THINK: "Google Business Profile · Local SEO",
+    includes: "Google Business Profile · Local SEO",
   },
   {
     id: "campaigns",
     number: "03",
     title: "Campaigns, start to finish",
     text: "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in calls and bookings, not just clicks.",
-    THINK: "Local Meta & Google ad campaigns · Ad creative direction · Lead capture & follow-up",
+    includes: "Local Meta & Google ad campaigns · Ad creative direction · Lead capture & follow-up",
   },
   {
     id: "numbers",
     number: "04",
     title: "Know your numbers, spend less",
     text: "Every call, form and booking is traced back to the ad that caused it. Each month you get a plain-English report, and I cut what isn't working.",
-    THINK: "Tracking & analytics · Cost per lead · Ad spend optimisation · Monthly reporting",
+    includes: "Tracking & analytics · Cost per lead · Ad spend optimisation · Monthly reporting",
   },
 ];
 
