@@ -12,6 +12,7 @@ import image3 from "../../public/Beccmaincrop.jpg";
 
 const PINK = "#d01c61";
 const LIME = "#D2F53C";
+const MAILTO = "mailto:helloworkhorseco@gmail.com";
 
 // Photos: About me block, "Need photos or video?" block, and the scrolling strip above the footer
 const ABOUT_IMAGE: string | undefined = beccImage;
@@ -132,8 +133,8 @@ function RotatingBadge() {
       transition={{ type: "spring", stiffness: 160, damping: 12, delay: 0.5 }}
       style={{ position: "absolute", top: "-1.4rem", left: "clamp(-2.6rem, -3vw, -1rem)", zIndex: 5, width: "clamp(96px, 11vw, 132px)", height: "clamp(96px, 11vw, 132px)" }}
     >
-      <Link
-        to="/contact"
+      <a
+        href={MAILTO}
         aria-label="Say hello"
         style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%", borderRadius: "50%", background: LIME, border: `3px solid ${BLACK}`, boxShadow: "0 12px 30px rgba(0,0,0,0.2)", textDecoration: "none", transition: "transform 0.25s cubic-bezier(0.22,1,0.36,1)" }}
         onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1)"; }}
@@ -154,7 +155,7 @@ function RotatingBadge() {
           </text>
         </motion.svg>
         <span style={{ position: "relative", fontFamily: "'DM Sans', sans-serif", fontSize: "1.7rem", fontWeight: 700, color: BLACK, lineHeight: 1 }}>↗</span>
-      </Link>
+      </a>
     </motion.div>
   );
 }
@@ -287,7 +288,7 @@ export default function Home() {
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         "content",
-        "Marketing consultant for Sydney small businesses. Get found, get more enquiries and see where every ad dollar goes. No agency layers."
+        "Marketing consultant helping Sydney small businesses. Get found, get more enquiries and see where every ad dollar goes. No agency layers."
       );
   }, []);
 
@@ -404,14 +405,14 @@ export default function Home() {
               transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
               style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", alignItems: "center" }}
             >
-              <Link
-                to="/contact"
+              <a
+                href={MAILTO}
                 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, padding: "0.8rem 2.1rem", textDecoration: "none", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
               >
                 Let's talk →
-              </Link>
+              </a>
               <Link
                 to="/services"
                 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.14em", textTransform: "uppercase", color: CREAM, border: `1.5px solid ${CREAM}`, background: "transparent", padding: "0.8rem 1.8rem", textDecoration: "none", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
@@ -494,14 +495,14 @@ export default function Home() {
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1.1rem,2vw,1.5rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 2.5rem", maxWidth: "720px" }}>
               I help local businesses get found by people searching right now, and turn them into real customers, not just clicks.
             </p>
-            <Link
-              to="/contact"
+            <a
+              href={MAILTO}
               style={{ display: "inline-block", fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, textDecoration: "none", padding: "0.95rem 2.4rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
             >
               Let's talk →
-            </Link>
+            </a>
           </div>
         </motion.div>
       </section>
@@ -524,7 +525,7 @@ export default function Home() {
             <span style={{ color: LIME }}>for your business.</span>
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: `${CREAM}B3`, lineHeight: 1.7, margin: "0 0 3.5rem", maxWidth: "560px" }}>
-            No jargon. A plan that fits, a business that gets found, campaigns that bring in enquiries, and full control of your ad spend.
+            No messing around. A plan that fits, a business that gets found, campaigns that bring in enquiries, and full control of your ad spend.
           </p>
 
           <div className="grid sm:grid-cols-2" style={{ gap: "1.5rem" }}>
@@ -672,14 +673,14 @@ export default function Home() {
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.2rem", color: `${BLACK}E6`, lineHeight: 1.85, margin: 0 }}>
             The marketing industry loves to make itself sound complicated. I don't. You'll work directly with me, and you'll always know what I'm doing, why I'm doing it, where your ad spend is going and what it's delivering. That's the whole deal.
           </p>
-          <Link
-            to="/contact"
+          <a
+            href={MAILTO}
             style={{ display: "inline-block", marginTop: "2rem", fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CREAM, background: BLACK, border: `1.5px solid ${BLACK}`, textDecoration: "none", padding: "0.85rem 2.2rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
             onMouseEnter={(e) => { e.currentTarget.style.background = PINK; e.currentTarget.style.borderColor = PINK; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.borderColor = BLACK; }}
           >
             Get in touch →
-          </Link>
+          </a>
         </motion.div>
       </section>
 
