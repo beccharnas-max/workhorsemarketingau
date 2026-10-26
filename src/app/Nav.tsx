@@ -93,7 +93,7 @@ export default function Nav() {
         {/* CTA — right (desktop only) */}
         <div className="nav-desktop-cta" style={{ justifyContent: "flex-end" }}>
           <a
-            href="mailto:hello@workhorse.co"
+            href="mailto:helloworkhorseco@gmail.com"
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: "0.68rem",
@@ -208,7 +208,7 @@ export default function Nav() {
             </NavLink>
           ))}
           <a
-            href="mailto:hello@workhorse.co"
+            href="mailto:helloworkhorseco@gmail.com"
             style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: "0.8rem",
