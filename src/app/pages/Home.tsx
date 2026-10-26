@@ -31,8 +31,8 @@ const SERVICES_DATA = [
     id: "found",
     number: "02",
     title: "Get found",
-    text: "When someone nearby searches for what you do, your business shows up. I set up your Google listing and local search so you're easy to find and easy to choose.",
-    includes: "Google Business Profile · Local SEO",
+    text: "When someone nearby searches for what you do, your business shows up. I help make sure you're easy to find and easy to choose.",
+    includes: "Google Business · Local SEO",
   },
   {
     id: "campaigns",
