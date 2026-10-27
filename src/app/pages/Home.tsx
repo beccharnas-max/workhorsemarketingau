@@ -288,7 +288,7 @@ export default function Home() {
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         "content",
-        "Marketing consultant helping Sydney small businesses. Get found, get more enquiries and see where every ad dollar goes. No agency layers."
+        "Marketing consultant helping Sydney small businesses. Get found, get more enquiries and see where every ad dollar goes. No agency layers. Sydney marketing consultant for small businesses"
       );
 
     // Canonical URL for the homepage (removed again when leaving this page)
@@ -493,7 +493,7 @@ export default function Home() {
             </h2>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem", margin: "0 0 2rem" }}>
-              {["Quiet months", "Ad spend you can't trace", "Enquiries that go nowhere"].map((chip) => (
+              {["Quiet months", "Ad spend you can't trace", "Enquiries that go nowhere", "Sydney & surrounds based"].map((chip) => (
                 <span
                   key={chip}
                   style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(0.9rem,1.4vw,1.05rem)", fontWeight: 500, color: CREAM, border: `1.5px solid ${CREAM}`, padding: "0.5rem 1.2rem", borderRadius: "9999px" }}
@@ -503,7 +503,7 @@ export default function Home() {
               ))}
             </div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1.1rem,2vw,1.5rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 2.5rem", maxWidth: "720px" }}>
-              I help local businesses get found by people searching right now, and turn them into real customers, not just clicks.
+              I help local businesses get found by people searching right now, and turn them into real customers, not just clicks. If you're a small busin
             </p>
             <a
               href={MAILTO}
@@ -713,7 +713,7 @@ export default function Home() {
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
             <a href="mailto:helloworkhorseco@gmail.com" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>helloworkhorseco@gmail.com</a>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: `${BLACK}59`, margin: 0 }}>Based in Sydney.</p>
           </div>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Follow</p>
