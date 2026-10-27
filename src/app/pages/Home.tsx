@@ -281,7 +281,7 @@ export default function Home() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
 
-  // Page title + description (what shows in the browser tab and on Google)
+  // Page title + description + canonical (what shows in the browser tab and on Google)
   useEffect(() => {
     document.title = "Workhorse | Marketing Consultant for Small Business, Sydney";
     document
@@ -290,6 +290,16 @@ export default function Home() {
         "content",
         "Marketing consultant helping Sydney small businesses. Get found, get more enquiries and see where every ad dollar goes. No agency layers."
       );
+
+    // Canonical URL for the homepage (removed again when leaving this page)
+    const existing = document.querySelector('link[rel="canonical"]');
+    const canonical = existing ?? document.createElement("link");
+    canonical.setAttribute("rel", "canonical");
+    canonical.setAttribute("href", "https://www.workhorsemarketing.au/");
+    if (!existing) document.head.appendChild(canonical);
+    return () => {
+      if (!existing) canonical.remove();
+    };
   }, []);
 
   useEffect(() => {
