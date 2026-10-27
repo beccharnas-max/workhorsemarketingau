@@ -643,7 +643,7 @@ export default function Home() {
               <span style={{ color: PINK }}>Zero agency layers.</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}B3`, lineHeight: 1.75, margin: "0 0 1.8rem" }}>
-              I'm a marketing consultant, not an agency. I work directly with small business owners to build a plan that fits, run the campaigns and keep a close eye on every dollar. No account managers, no hand-offs.
+              I'm a marketing consultant, not an agency. I work directly with small business owners to build a plan that fits, run the campaigns and keep a close eye on every dollar. No account managers, no hand-offs. If you're a small business based is Sydney or near by, I'm here to help.
             </p>
             <Link
               to="/about"
