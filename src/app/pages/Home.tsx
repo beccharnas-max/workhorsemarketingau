@@ -131,7 +131,7 @@ function RotatingBadge() {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 160, damping: 12, delay: 0.5 }}
-      style={{ position: "absolute", top: "-1.4rem", left: "clamp(-2.6rem, -3vw, -1rem)", zIndex: 5, width: "clamp(96px, 11vw, 132px)", height: "clamp(96px, 11vw, 132px)" }}
+      style={{ position: "absolute", top: "clamp(1.25rem, 3vw, 2.5rem)", right: "clamp(1.25rem, 4vw, 3rem)", zIndex: 5, width: "clamp(76px, 9vw, 108px)", height: "clamp(76px, 9vw, 108px)" }}
     >
       <a
         href={MAILTO}
@@ -288,7 +288,7 @@ export default function Home() {
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         "content",
-        "Marketing consultant helping Sydney small businesses. Get found, get more enquiries and see where every ad dollar goes. No agency layers. Sydney marketing consultant for small businesses"
+        "Sydney marketing consultant for small businesses. Get found locally, get more enquiries and see where every ad dollar goes. No agency layers."
       );
 
     // Canonical URL for the homepage (removed again when leaving this page)
@@ -456,7 +456,7 @@ export default function Home() {
       </section>
 
       {/* ── Sound familiar? (big statement) ── */}
-      <section style={{ background: CREAM, padding: "5rem 1rem 7rem" }}>
+      <section style={{ background: CREAM, padding: "4rem 2rem 6rem" }}>
         <motion.div
           initial={{ opacity: 0, y: 70, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -466,13 +466,12 @@ export default function Home() {
             position: "relative",
             overflow: "hidden",
             background: PINK,
-            borderRadius: "clamp(3rem,9vw,9rem) clamp(2rem,4vw,4rem) clamp(4rem,12vw,12rem) clamp(2rem,5vw,5rem)",
-            maxWidth: "1400px",
+            borderRadius: "clamp(2.5rem,7vw,6rem) clamp(1.5rem,3vw,3rem) clamp(3rem,9vw,8rem) clamp(1.5rem,4vw,4rem)",
+            maxWidth: "1100px",
             margin: "0 auto",
-            minHeight: "92vh",
             display: "flex",
             alignItems: "center",
-            padding: "clamp(4rem,9vw,9rem) clamp(2rem,8vw,8rem)",
+            padding: "clamp(5.5rem,8vw,6rem) clamp(2rem,6vw,5rem) clamp(3rem,6vw,5rem)",
             boxShadow: "0 40px 90px rgba(208,28,97,0.28)",
           }}
         >
@@ -480,18 +479,16 @@ export default function Home() {
             aria-hidden="true"
             style={{ position: "absolute", right: "-6rem", bottom: "-6rem", width: "clamp(12rem,30vw,26rem)", height: "clamp(12rem,30vw,26rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
           />
+          <RotatingBadge />
           <div style={{ position: "relative", zIndex: 1, maxWidth: "1000px" }}>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.22em", color: `${CREAM}B3`, textTransform: "uppercase", margin: "0 0 1.5rem" }}>
               Sound familiar?
             </p>
-            <div style={{ position: "relative" }}>
-            <RotatingBadge />
-            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.8rem,8.5vw,7.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 2.2rem" }}>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem,5.5vw,4.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 2.2rem" }}>
               Great at what you do.
               <br />
               <span style={{ color: LIME }}>Not enough people know it.</span>
             </h2>
-            </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem", margin: "0 0 2rem" }}>
               {["Quiet months", "Ad spend you can't trace", "Enquiries that go nowhere", "Sydney & surrounds based"].map((chip) => (
                 <span
@@ -503,7 +500,7 @@ export default function Home() {
               ))}
             </div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1.1rem,2vw,1.5rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 2.5rem", maxWidth: "720px" }}>
-              I help local businesses get found by people searching right now, and turn them into real customers, not just clicks. If you're a small busin
+              I help local businesses get found by people searching right now, and turn them into real customers, not just clicks. If you're a small business in Sydney or the surrounding suburbs, I'd love to help.
             </p>
             <a
               href={MAILTO}
@@ -643,7 +640,7 @@ export default function Home() {
               <span style={{ color: PINK }}>Zero agency layers.</span>
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}B3`, lineHeight: 1.75, margin: "0 0 1.8rem" }}>
-              I'm a marketing consultant, not an agency. I work directly with small business owners to build a plan that fits, run the campaigns and keep a close eye on every dollar. No account managers, no hand-offs. If you're a small business based is Sydney or near by, I'm here to help.
+              I'm a marketing consultant, not an agency. I work directly with small business owners to build a plan that fits, run the campaigns and keep a close eye on every dollar. No account managers, no hand-offs. If you're a small business based in Sydney or nearby, I'm here to help.
             </p>
             <Link
               to="/about"

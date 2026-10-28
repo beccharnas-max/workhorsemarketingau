@@ -157,7 +157,7 @@ export default function Services() {
             <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(3rem,9vw,7.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 2rem" }}>
               Here's what I do.
               <br />
-              <span style={{ color: LIME }}>In plain English.</span>
+              <span style={{ color: LIME }}>Easy to Digest</span>
             </h1>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1.1rem,2vw,1.4rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 2.5rem", maxWidth: "640px" }}>
               I help small businesses get found, get more enquiries and see exactly where every ad dollar goes. Four things, no jargon.
