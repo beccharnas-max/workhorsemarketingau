@@ -7,7 +7,21 @@ const PINK = "#d01c61";
 // Third brand colour (same as Home). Tip: move PINK and LIME into ../constants so both pages share them.
 const LIME = "#D2F53C";
 
-const PRINCIPLES = [
+const CONTACT_EMAIL = "mailto:helloworkhorseco@gmail.com";
+
+type Principle = {
+  number: string;
+  title: string;
+  text: string;
+  bg: string;
+  fg: string;
+  muted: string;
+  badgeBg: string;
+  badgeFg: string;
+  radius: string;
+};
+
+const PRINCIPLES: Principle[] = [
   {
     number: "01",
     title: "Direct",
@@ -28,7 +42,7 @@ const PRINCIPLES = [
   },
 ];
 
-const FOOTER_SERVICES = [
+const FOOTER_SERVICES: string[] = [
   "A plan that fits",
   "Get found",
   "Campaigns, start to finish",
@@ -78,14 +92,14 @@ export default function About() {
               I help small businesses in Sydney get found, get more enquiries and see exactly where every ad dollar goes. I'm a consultant, not an agency, so you work directly with me.
             </p>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
-              <Link
-                to="/contact"
+              <a
+                href={CONTACT_EMAIL}
                 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, textDecoration: "none", padding: "0.85rem 2.2rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
                 onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
               >
                 Let's talk →
-              </Link>
+              </a>
               <Link
                 to="/services"
                 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.16em", textTransform: "uppercase", color: CREAM, border: `1.5px solid ${CREAM}`, background: "transparent", padding: "0.85rem 1.9rem", textDecoration: "none", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
@@ -233,14 +247,14 @@ export default function About() {
             Have a chat with me about your business. No pressure, no jargon.
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link
-              to="/contact"
+            <a
+              href={CONTACT_EMAIL}
               style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CREAM, background: BLACK, border: `1.5px solid ${BLACK}`, textDecoration: "none", padding: "0.8rem 2rem", transition: "background 0.2s, border-color 0.2s", borderRadius: "9999px" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = PINK; e.currentTarget.style.borderColor = PINK; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.borderColor = BLACK; }}
             >
               Let's talk →
-            </Link>
+            </a>
             <Link
               to="/services"
               style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: "transparent", border: `1.5px solid ${BLACK}`, textDecoration: "none", padding: "0.8rem 1.8rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
