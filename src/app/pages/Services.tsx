@@ -1,4 +1,5 @@
-import { motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence, useInView, useReducedMotion } from "motion/react";
 import { Link } from "react-router";
 import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, BLACK, EASE } from "../constants";
@@ -15,7 +16,7 @@ const SERVICES_DETAIL_DATA = [
     title: "A plan that fits",
     bg: PINK, fg: CREAM, badgeBg: LIME, badgeFg: BLACK, radius: "40px 14px 40px 14px",
     intro:
-      "Before I touch anything, I work out what matters for your business, so you grow and show up in the right places, not everywhere. It also means you only pay for work you actually need.",
+      "Before I touch anything, I work out what matters for your business, so you grow and show up in the right places, not everywhere. I also work out what to spend and what to expect back, so you only pay for work you actually need.",
     groups: [
       {
         label: undefined as string | undefined,
@@ -28,6 +29,21 @@ const SERVICES_DETAIL_DATA = [
           "Goals & KPIs",
         ],
       },
+      {
+        label: "Budget" as string | undefined,
+        items: [
+          "Marketing budget: what to spend and where",
+          "Forecasting: what to expect back",
+        ],
+      },
+      {
+        label: "Ongoing" as string | undefined,
+        items: [
+          "Part-time marketing lead: I act as your marketing manager",
+          "Brief, guide and review your junior, VA or freelancers",
+          "Monthly priorities and check-ins",
+        ],
+      },
     ],
   },
   {
@@ -36,11 +52,18 @@ const SERVICES_DETAIL_DATA = [
     title: "Get found",
     bg: LIME, fg: BLACK, badgeBg: BLACK, badgeFg: LIME, radius: "14px 40px 14px 40px",
     intro:
-      "When someone nearby searches for what you do, your business shows up and looks like the obvious choice.",
+      "When someone nearby searches for what you do, your business shows up and looks like the obvious choice. Reviews are a big part of that: they help you rank, and they decide who gets the call.",
     groups: [
       {
-        label: undefined as string | undefined,
+        label: "Be visible" as string | undefined,
         items: ["Google Business Profile setup", "Local SEO"],
+      },
+      {
+        label: "Be the obvious choice" as string | undefined,
+        items: [
+          "Review generation: simple ways to get more 5-star reviews",
+          "Review replies and reputation monitoring",
+        ],
       },
     ],
   },
@@ -62,6 +85,13 @@ const SERVICES_DETAIL_DATA = [
           "Local Meta & Google ad campaigns",
           "Ad creative direction",
           "Lead capture & follow-up automation",
+        ],
+      },
+      {
+        label: "Convert" as string | undefined,
+        items: [
+          "Landing page briefs: what the page needs to say and do",
+          "Conversion audits of your existing pages",
         ],
       },
     ],
@@ -109,6 +139,85 @@ const STEPS = [
   },
 ];
 
+/**
+ * Results. Client details stay anonymous: tags describe the TYPE of result, not the business.
+ * Check each "how" line matches what actually happened before publishing.
+ */
+const RESULTS = [
+  {
+    id: "traffic",
+    prefix: "+",
+    value: 52,
+    suffix: "%",
+    label: "website users, year on year",
+    tag: "Website traffic",
+    fromNum: 6898,
+    toNum: 11838,
+    unit: "website users",
+    extra: undefined as string | undefined,
+    how: [
+      "Built email sign-up and automation foundations: website form, sign-up block and pop-up, connected to the email platform.",
+      "Launched Meta Ads alongside it, shifting budget toward what was working.",
+    ],
+    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+  },
+  {
+    id: "enquiries",
+    prefix: "+",
+    value: 46,
+    suffix: "%",
+    label: "enquiries, year on year",
+    tag: "Lead generation",
+    fromNum: 279,
+    toNum: 408,
+    unit: "enquiries",
+    extra: "Up around 50% across the June to August peak." as string | undefined,
+    how: [
+      "Google and Meta lead-generation campaigns paired with email capture.",
+      "Tested pricing and messaging against real demand to lift conversion.",
+      "Planned campaigns around the peak season.",
+    ],
+    bg: LIME, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: LIME, radius: "16px 56px 16px 56px",
+  },
+  {
+    id: "cost",
+    prefix: "−",
+    value: 38,
+    suffix: "%",
+    label: "cost per conversion, vs previous period",
+    tag: "Google Ads",
+    fromNum: 109.65,
+    toNum: 67.93,
+    unit: "per conversion",
+    numPrefix: "A$" as string | undefined,
+    extra: "Conversions up 23% over the same period." as string | undefined,
+    how: [
+      "Reviewed and optimised search terms and keywords.",
+      "Cut wasted spend so the same budget brought in more conversions.",
+    ],
+    bg: CREAM, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}1F`, badgeBg: PINK, badgeFg: CREAM, radius: "16px 56px 16px 56px",
+  },
+  {
+    id: "spend",
+    prefix: "−",
+    value: 27,
+    suffix: "%",
+    label: "paid social spend",
+    tag: "Ad efficiency",
+    fromNum: 1903,
+    toNum: 39023,
+    unit: "link clicks",
+    extra: "Spend went down while link clicks went up." as string | undefined,
+    how: [
+      "Used live dashboards to test and move budget toward what drove results.",
+      "Cut what wasn't working instead of spreading spend thin.",
+    ],
+    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+  },
+];
+
+type Result = (typeof RESULTS)[number];
+
 const FOOTER_SERVICES = [
   "A plan that fits",
   "Get found",
@@ -116,7 +225,166 @@ const FOOTER_SERVICES = [
   "Know your numbers, spend less",
 ];
 
+/** Number that counts up once it scrolls into view (respects reduced motion). */
+function CountUp({ to, prefix, suffix, active }: { to: number; prefix: string; suffix: string; active: boolean }) {
+  const reduce = useReducedMotion();
+  const [n, setN] = useState(reduce ? to : 0);
+
+  useEffect(() => {
+    if (!active) return;
+    if (reduce) {
+      setN(to);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const duration = 1400;
+    const tick = (t: number) => {
+      const p = Math.min((t - start) / duration, 1);
+      setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [active, to, reduce]);
+
+  return (
+    <>
+      {prefix}
+      {n}
+      {suffix}
+    </>
+  );
+}
+
+/** Pop-up with the detail behind a result. Esc, backdrop click or the X closes it. */
+function ResultModal({ r, onClose }: { r: Result; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const maxNum = Math.max(r.fromNum, r.toNum);
+  const beforePct = Math.max((r.fromNum / maxNum) * 100, 4);
+  const afterPct = Math.max((r.toNum / maxNum) * 100, 4);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,0.72)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1.25rem", overflowY: "auto" }}
+    >
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`result-title-${r.id}`}
+        initial={{ opacity: 0, y: 40, scale: 0.94 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 24, scale: 0.96 }}
+        transition={{ duration: 0.4, ease: EASE }}
+        onClick={(e) => e.stopPropagation()}
+        style={{ position: "relative", width: "100%", maxWidth: "620px", background: r.bg, color: r.fg, borderRadius: r.radius, padding: "clamp(2rem,5vw,3rem)", boxShadow: "0 40px 90px rgba(0,0,0,0.4)" }}
+      >
+        <button
+          ref={closeRef}
+          onClick={onClose}
+          aria-label="Close"
+          style={{ position: "absolute", top: "1.2rem", right: "1.2rem", width: 40, height: 40, borderRadius: "50%", background: r.fg, color: r.bg, border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", lineHeight: 1, transform: "rotate(45deg)" }}
+        >
+          +
+        </button>
+
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: r.muted, margin: "0 0 0.6rem" }}>
+          {r.tag}
+        </p>
+        <h3 id={`result-title-${r.id}`} style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(3.5rem,10vw,5.5rem)", lineHeight: 0.9, textTransform: "uppercase", margin: "0 0 0.4rem" }}>
+          {r.prefix}
+          {r.value}
+          {r.suffix}
+        </h3>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: r.muted, margin: "0 0 1.8rem" }}>{r.label}</p>
+
+        {/* Before / after bars */}
+        <div style={{ margin: "0 0 1.8rem" }}>
+          {[
+            { name: "Before", num: r.fromNum, pct: beforePct, bar: r.line },
+            { name: "After", num: r.toNum, pct: afterPct, bar: r.badgeBg },
+          ].map((row, i) => (
+            <div key={row.name} style={{ marginBottom: "0.7rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: r.muted, marginBottom: "0.3rem" }}>
+                <span>{row.name}</span>
+                <span>
+                  {r.numPrefix ?? ""}{row.num.toLocaleString("en-AU", { minimumFractionDigits: r.numPrefix ? 2 : 0 })} {r.unit}
+                </span>
+              </div>
+              <div style={{ height: 14, borderRadius: 9999, background: r.line, overflow: "hidden" }}>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${row.pct}%` }}
+                  transition={{ duration: 0.9, delay: 0.25 + i * 0.25, ease: EASE }}
+                  style={{ height: "100%", borderRadius: 9999, background: row.bar }}
+                />
+              </div>
+            </div>
+          ))}
+          {r.extra && (
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", fontWeight: 700, margin: "0.9rem 0 0" }}>{r.extra}</p>
+          )}
+        </div>
+
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", margin: "0 0 0.6rem" }}>
+          What I did
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", margin: "0 0 2rem" }}>
+          {r.how.map((line) => (
+            <p key={line} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: r.muted, lineHeight: 1.6, margin: 0, padding: "0.6rem 0", borderTop: `1px solid ${r.line}`, display: "flex", gap: "0.7rem" }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: r.fg, flexShrink: 0, marginTop: "0.55rem" }} />
+              {line}
+            </p>
+          ))}
+        </div>
+
+        <Link
+          to="/contact"
+          style={{ display: "inline-block", fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: r.bg, background: r.fg, textDecoration: "none", padding: "0.85rem 2.1rem", borderRadius: "9999px" }}
+        >
+          Want this for your business? →
+        </Link>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Services() {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+  const resultsInView = useInView(resultsRef, { once: true, amount: 0.3 });
+  const openResult = RESULTS.find((r) => r.id === openId) ?? null;
+
+  // Page title + description (what shows in the browser tab and on Google)
+  useEffect(() => {
+    document.title = "Services | Workhorse Marketing Consultant, Sydney";
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute(
+        "content",
+        "Marketing strategy, local SEO, Google reviews, Meta & Google ad campaigns and monthly reporting for Sydney small businesses. One consultant, no agency layers."
+      );
+  }, []);
+
   return (
     <div style={{ background: CREAM, paddingTop: "4.5rem", overflowX: "clip" }}>
       <style>{`
@@ -125,7 +393,7 @@ export default function Services() {
       `}</style>
 
       {/* ── Hero panel ── */}
-      <section style={{ padding: "3rem 1rem 4rem" }}>
+      <section style={{ padding: "1.5rem 1rem 2.5rem" }}>
         <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -134,13 +402,12 @@ export default function Services() {
             position: "relative",
             overflow: "hidden",
             background: PINK,
-            borderRadius: "clamp(3rem,9vw,9rem) clamp(2rem,4vw,4rem) clamp(4rem,12vw,12rem) clamp(2rem,5vw,5rem)",
+            borderRadius: "clamp(2rem,6vw,5rem) clamp(1.5rem,3vw,3rem) clamp(2.5rem,7vw,6rem) clamp(1.5rem,4vw,3rem)",
             maxWidth: "1300px",
             margin: "0 auto",
-            minHeight: "72vh",
             display: "flex",
             alignItems: "center",
-            padding: "clamp(4rem,9vw,8rem) clamp(2rem,8vw,8rem)",
+            padding: "clamp(2rem,4.5vw,3.5rem) clamp(1.75rem,6vw,4.5rem)",
             boxShadow: "0 40px 90px rgba(208,28,97,0.28)",
           }}
         >
@@ -148,18 +415,18 @@ export default function Services() {
             aria-hidden="true"
             animate={{ rotate: [0, 8, 0], y: [0, -10, 0] }}
             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-            style={{ position: "absolute", right: "-6rem", bottom: "-6rem", width: "clamp(12rem,30vw,26rem)", height: "clamp(12rem,30vw,26rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
+            style={{ position: "absolute", right: "-4rem", bottom: "-4rem", width: "clamp(8rem,18vw,16rem)", height: "clamp(8rem,18vw,16rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
           />
           <div style={{ position: "relative", zIndex: 1, maxWidth: "900px" }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.22em", color: `${CREAM}B3`, textTransform: "uppercase", margin: "0 0 1.5rem" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.22em", color: `${CREAM}B3`, textTransform: "uppercase", margin: "0 0 1rem" }}>
               Services
             </p>
-            <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(3rem,9vw,7.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 2rem" }}>
+            <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.4rem,6vw,4.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 1.25rem" }}>
               Here's what I do.
               <br />
               <span style={{ color: LIME }}>Easy to Digest</span>
             </h1>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1.1rem,2vw,1.4rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 2.5rem", maxWidth: "640px" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1rem,1.6vw,1.2rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 1.5rem", maxWidth: "640px" }}>
               I help small businesses get found, get more enquiries and see exactly where every ad dollar goes. Four things, no jargon.
             </p>
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
@@ -275,7 +542,7 @@ export default function Services() {
         </motion.div>
       </section>
 
-      {/* ── How it works + content note ── */}
+      {/* ── How it works + not-for-me note ── */}
       <section style={{ background: BLACK, padding: "7rem 2rem" }}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
@@ -314,16 +581,72 @@ export default function Services() {
             ))}
           </div>
 
-          {/* Content & creative */}
+          {/* Not for me: design, websites, day-to-day social */}
           <div style={{ marginTop: "1.5rem", border: `1.5px solid ${CREAM}33`, borderRadius: "16px 56px 16px 56px", padding: "clamp(1.6rem,3vw,2.2rem)" }}>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: LIME, margin: "0 0 0.7rem" }}>
-              Need photos, video or design?
+              Need design, a website or social posting?
             </p>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: `${CREAM}B3`, lineHeight: 1.7, margin: 0 }}>
-              I'm not a graphic designer, and I don't build or fix websites. I'll put you in touch with the right people, and help source photography and videography, writing the briefs and working directly with my contacts.
+              I'm not a graphic designer, I don't build or fix websites, and I don't do day-to-day social posting. I'll tell you straight when you need one of those, and I'll put you in touch with the right people, help source photography and videography, and write the briefs so it's done properly.
             </p>
           </div>
         </motion.div>
+      </section>
+
+      {/* ── Results: count-up cards with pop-up detail ── */}
+      <section style={{ background: PINK, padding: "7rem 2rem" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          viewport={{ once: true, amount: 0.1 }}
+          style={{ maxWidth: "1000px", margin: "0 auto" }}
+        >
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: `${CREAM}CC`, marginBottom: "1rem" }}>
+            Results
+          </p>
+          <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem, 5.5vw, 4rem)", textTransform: "uppercase", color: CREAM, lineHeight: 0.95, margin: "0 0 1.2rem" }}>
+            Numbers,
+            <br />
+            <span style={{ color: LIME }}>not promises.</span>
+          </h2>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: `${CREAM}E6`, lineHeight: 1.7, margin: "0 0 3.5rem", maxWidth: "560px" }}>
+            Real results from my work leading marketing for a multi-site business. Tap a number to see what changed.
+          </p>
+
+          <div ref={resultsRef} className="grid sm:grid-cols-2" style={{ gap: "1.5rem" }}>
+            {RESULTS.map((r, i) => (
+              <motion.button
+                key={r.id}
+                onClick={() => setOpenId(r.id)}
+                whileHover={{ y: -8, rotate: i % 2 === 0 ? -1 : 1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                aria-label={`${r.prefix}${r.value}${r.suffix} ${r.label}. Open details`}
+                style={{ background: r.bg, color: r.fg, borderRadius: r.radius, padding: "2.2rem", display: "flex", flexDirection: "column", textAlign: "left", border: "none", cursor: "pointer", gridColumn: i === RESULTS.length - 1 && RESULTS.length % 2 === 1 ? "1 / -1" : undefined }}
+              >
+                <span style={{ alignSelf: "flex-start", fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", background: r.badgeBg, color: r.badgeFg, padding: "0.4rem 0.9rem", borderRadius: "9999px", marginBottom: "1.2rem" }}>
+                  {r.tag}
+                </span>
+                <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(3.6rem, 8vw, 5.5rem)", lineHeight: 0.9, textTransform: "uppercase" }}>
+                  <CountUp to={r.value} prefix={r.prefix} suffix={r.suffix} active={resultsInView} />
+                </span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: r.muted, margin: "0.6rem 0 1.5rem", flexGrow: 1 }}>{r.label}</span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", paddingTop: "1rem", borderTop: `1px solid ${r.line}` }}>
+                  See what changed →
+                </span>
+              </motion.button>
+            ))}
+          </div>
+
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${CREAM}CC`, lineHeight: 1.6, margin: "2rem 0 0" }}>
+            Results from my contracted work leading marketing for a multi-site business. Client details withheld.
+          </p>
+        </motion.div>
+
+        <AnimatePresence>
+          {openResult && <ResultModal key={openResult.id} r={openResult} onClose={() => setOpenId(null)} />}
+        </AnimatePresence>
       </section>
 
       {/* ── CTA ── */}
@@ -387,7 +710,7 @@ export default function Services() {
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Get in touch</p>
             <a href="mailto:helloworkhorseco@gmail.com" style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: PINK, textDecoration: "none", display: "block", marginBottom: "0.5rem" }}>helloworkhorseco@gmail.com</a>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: `${BLACK}59`, margin: 0 }}>Based in Australia.</p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: `${BLACK}59`, margin: 0 }}>Based in Sydney.</p>
           </div>
           <div>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", color: `${BLACK}59`, textTransform: "uppercase", letterSpacing: "0.18em", margin: "0 0 1rem" }}>Follow</p>

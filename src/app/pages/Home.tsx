@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useInView, useReducedMotion } from "motion/react";
 import { Link } from "react-router";
 import { CREAM, BLACK, EASE, HERO_BLOB } from "../constants";
 import beccImage from "../../public/main.PNG";
@@ -84,6 +84,85 @@ const FAQS = [
   },
 ];
 
+/**
+ * Results. Client details stay anonymous: tags describe the TYPE of result, not the business.
+ * Check each "how" line matches what actually happened before publishing.
+ */
+const RESULTS = [
+  {
+    id: "traffic",
+    prefix: "+",
+    value: 52,
+    suffix: "%",
+    label: "website users, year on year",
+    tag: "Website traffic",
+    fromNum: 6898,
+    toNum: 11838,
+    unit: "website users",
+    extra: undefined as string | undefined,
+    how: [
+      "Built email sign-up and automation foundations: website form, sign-up block and pop-up, connected to the email platform.",
+      "Launched Meta Ads alongside it, shifting budget toward what was working.",
+    ],
+    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+  },
+  {
+    id: "enquiries",
+    prefix: "+",
+    value: 46,
+    suffix: "%",
+    label: "enquiries, year on year",
+    tag: "Lead generation",
+    fromNum: 279,
+    toNum: 408,
+    unit: "enquiries",
+    extra: "Up around 50% across the June to August peak." as string | undefined,
+    how: [
+      "Google and Meta lead-generation campaigns paired with email capture.",
+      "Tested pricing and messaging against real demand to lift conversion.",
+      "Planned campaigns around the peak season.",
+    ],
+    bg: LIME, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: LIME, radius: "16px 56px 16px 56px",
+  },
+  {
+    id: "cost",
+    prefix: "−",
+    value: 38,
+    suffix: "%",
+    label: "cost per conversion, vs previous period",
+    tag: "Google Ads",
+    fromNum: 109.65,
+    toNum: 67.93,
+    unit: "per conversion",
+    numPrefix: "A$" as string | undefined,
+    extra: "Conversions up 23% over the same period." as string | undefined,
+    how: [
+      "Reviewed and optimised search terms and keywords.",
+      "Cut wasted spend so the same budget brought in more conversions.",
+    ],
+    bg: CREAM, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}1F`, badgeBg: PINK, badgeFg: CREAM, radius: "16px 56px 16px 56px",
+  },
+  {
+    id: "spend",
+    prefix: "−",
+    value: 27,
+    suffix: "%",
+    label: "paid social spend",
+    tag: "Ad efficiency",
+    fromNum: 1903,
+    toNum: 39023,
+    unit: "link clicks",
+    extra: "Spend went down while link clicks went up." as string | undefined,
+    how: [
+      "Used live dashboards to test and move budget toward what drove results.",
+      "Cut what wasn't working instead of spreading spend thin.",
+    ],
+    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+  },
+];
+
+type Result = (typeof RESULTS)[number];
+
 function ImageSlot({
   src,
   alt,
@@ -131,7 +210,7 @@ function RotatingBadge() {
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 160, damping: 12, delay: 0.5 }}
-      style={{ position: "absolute", top: "clamp(1.25rem, 3vw, 2.5rem)", right: "clamp(1.25rem, 4vw, 3rem)", zIndex: 5, width: "clamp(76px, 9vw, 108px)", height: "clamp(76px, 9vw, 108px)" }}
+      style={{ position: "absolute", top: "clamp(1rem, 2.5vw, 2rem)", right: "clamp(1.25rem, 4vw, 3rem)", zIndex: 5, width: "clamp(68px, 8vw, 92px)", height: "clamp(68px, 8vw, 92px)" }}
     >
       <a
         href={MAILTO}
@@ -154,9 +233,225 @@ function RotatingBadge() {
             <textPath href="#badge-circle">SAY HELLO ✦ SAY HELLO ✦ SAY HELLO ✦</textPath>
           </text>
         </motion.svg>
-        <span style={{ position: "relative", fontFamily: "'DM Sans', sans-serif", fontSize: "1.7rem", fontWeight: 700, color: BLACK, lineHeight: 1 }}>↗</span>
+        <span style={{ position: "relative", fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", fontWeight: 700, color: BLACK, lineHeight: 1 }}>↗</span>
       </a>
     </motion.div>
+  );
+}
+
+/** Number that counts up once it scrolls into view (respects reduced motion). */
+function CountUp({ to, prefix, suffix, active }: { to: number; prefix: string; suffix: string; active: boolean }) {
+  const reduce = useReducedMotion();
+  const [n, setN] = useState(reduce ? to : 0);
+
+  useEffect(() => {
+    if (!active) return;
+    if (reduce) {
+      setN(to);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const duration = 1400;
+    const tick = (t: number) => {
+      const p = Math.min((t - start) / duration, 1);
+      setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [active, to, reduce]);
+
+  return (
+    <>
+      {prefix}
+      {n}
+      {suffix}
+    </>
+  );
+}
+
+/** Pop-up with the detail behind a result. Esc, backdrop click or the X closes it. */
+function ResultModal({ r, onClose }: { r: Result; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const maxNum = Math.max(r.fromNum, r.toNum);
+  const beforePct = Math.max((r.fromNum / maxNum) * 100, 4);
+  const afterPct = Math.max((r.toNum / maxNum) * 100, 4);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeRef.current?.focus();
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0, zIndex: 100, background: "rgba(0,0,0,0.72)", display: "flex", alignItems: "center", justifyContent: "center", padding: "1.25rem", overflowY: "auto" }}
+    >
+      <motion.div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`result-title-${r.id}`}
+        initial={{ opacity: 0, y: 40, scale: 0.94 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 24, scale: 0.96 }}
+        transition={{ duration: 0.4, ease: EASE }}
+        onClick={(e) => e.stopPropagation()}
+        style={{ position: "relative", width: "100%", maxWidth: "620px", background: r.bg, color: r.fg, borderRadius: r.radius, padding: "clamp(2rem,5vw,3rem)", boxShadow: "0 40px 90px rgba(0,0,0,0.4)" }}
+      >
+        <button
+          ref={closeRef}
+          onClick={onClose}
+          aria-label="Close"
+          style={{ position: "absolute", top: "1.2rem", right: "1.2rem", width: 40, height: 40, borderRadius: "50%", background: r.fg, color: r.bg, border: "none", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", lineHeight: 1, transform: "rotate(45deg)" }}
+        >
+          +
+        </button>
+
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: r.muted, margin: "0 0 0.6rem" }}>
+          {r.tag}
+        </p>
+        <h3 id={`result-title-${r.id}`} style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(3.5rem,10vw,5.5rem)", lineHeight: 0.9, textTransform: "uppercase", margin: "0 0 0.4rem" }}>
+          {r.prefix}
+          {r.value}
+          {r.suffix}
+        </h3>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: r.muted, margin: "0 0 1.8rem" }}>{r.label}</p>
+
+        {/* Before / after bars */}
+        <div style={{ margin: "0 0 1.8rem" }}>
+          {[
+            { name: "Before", num: r.fromNum, pct: beforePct, bar: r.line },
+            { name: "After", num: r.toNum, pct: afterPct, bar: r.badgeBg },
+          ].map((row, i) => (
+            <div key={row.name} style={{ marginBottom: "0.7rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.14em", textTransform: "uppercase", color: r.muted, marginBottom: "0.3rem" }}>
+                <span>{row.name}</span>
+                <span>
+                  {r.numPrefix ?? ""}{row.num.toLocaleString("en-AU", { minimumFractionDigits: r.numPrefix ? 2 : 0 })} {r.unit}
+                </span>
+              </div>
+              <div style={{ height: 14, borderRadius: 9999, background: r.line, overflow: "hidden" }}>
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${row.pct}%` }}
+                  transition={{ duration: 0.9, delay: 0.25 + i * 0.25, ease: EASE }}
+                  style={{ height: "100%", borderRadius: 9999, background: row.bar }}
+                />
+              </div>
+            </div>
+          ))}
+          {r.extra && (
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", fontWeight: 700, margin: "0.9rem 0 0" }}>{r.extra}</p>
+          )}
+        </div>
+
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", margin: "0 0 0.6rem" }}>
+          What I did
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", margin: "0 0 2rem" }}>
+          {r.how.map((line) => (
+            <p key={line} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: r.muted, lineHeight: 1.6, margin: 0, padding: "0.6rem 0", borderTop: `1px solid ${r.line}`, display: "flex", gap: "0.7rem" }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: r.fg, flexShrink: 0, marginTop: "0.55rem" }} />
+              {line}
+            </p>
+          ))}
+        </div>
+
+        <Link
+          to="/contact"
+          style={{ display: "inline-block", fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: r.bg, background: r.fg, textDecoration: "none", padding: "0.85rem 2.1rem", borderRadius: "9999px" }}
+        >
+          Want this for your business? →
+        </Link>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+
+/** Results band: four compact cards in a row. Tap a card for the pop-up detail. */
+function ResultsBand() {
+  const [openId, setOpenId] = useState<string | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(gridRef, { once: true, amount: 0.3 });
+  const openResult = RESULTS.find((r) => r.id === openId) ?? null;
+
+  return (
+    <section style={{ background: PINK, padding: "4.5rem 2rem 5rem" }}>
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: EASE }}
+        viewport={{ once: true, amount: 0.1 }}
+        style={{ maxWidth: "1100px", margin: "0 auto" }}
+      >
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1rem", margin: "0 0 2rem" }}>
+          <div>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: `${CREAM}CC`, margin: "0 0 0.8rem" }}>
+              Results
+            </p>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", textTransform: "uppercase", color: CREAM, lineHeight: 0.95, margin: 0 }}>
+              Numbers, <span style={{ color: LIME }}>not promises.</span>
+            </h2>
+          </div>
+          <Link
+            to="/services"
+            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.18em", textTransform: "uppercase", color: CREAM, textDecoration: "none", border: `1px solid ${CREAM}80`, padding: "0.6rem 1.5rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.color = BLACK; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = `${CREAM}80`; e.currentTarget.style.color = CREAM; }}
+          >
+            See how I work →
+          </Link>
+        </div>
+
+        <div ref={gridRef} className="grid grid-cols-2 md:grid-cols-4" style={{ gap: "1rem" }}>
+          {RESULTS.map((r, i) => (
+            <motion.button
+              key={r.id}
+              onClick={() => setOpenId(r.id)}
+              whileHover={{ y: -6, rotate: i % 2 === 0 ? -1 : 1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 260, damping: 18 }}
+              aria-label={`${r.prefix}${r.value}${r.suffix} ${r.label}. Open details`}
+              style={{ background: r.bg, color: r.fg, borderRadius: i % 2 === 0 ? "28px 10px 28px 10px" : "10px 28px 10px 28px", padding: "1.3rem 1.2rem", display: "flex", flexDirection: "column", textAlign: "left", border: "none", cursor: "pointer" }}
+            >
+              <span style={{ alignSelf: "flex-start", fontFamily: "'DM Sans', sans-serif", fontSize: "0.62rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", background: r.badgeBg, color: r.badgeFg, padding: "0.3rem 0.7rem", borderRadius: "9999px", marginBottom: "0.9rem" }}>
+                {r.tag}
+              </span>
+              <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.4rem, 4vw, 3.4rem)", lineHeight: 0.9, textTransform: "uppercase" }}>
+                <CountUp to={r.value} prefix={r.prefix} suffix={r.suffix} active={inView} />
+              </span>
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.88rem", color: r.muted, lineHeight: 1.4, margin: "0.5rem 0 1rem", flexGrow: 1 }}>{r.label}</span>
+              <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.66rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", paddingTop: "0.7rem", borderTop: `1px solid ${r.line}` }}>
+                See what changed →
+              </span>
+            </motion.button>
+          ))}
+        </div>
+
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.78rem", color: `${CREAM}CC`, lineHeight: 1.6, margin: "1.5rem 0 0" }}>
+          Results from my contracted work leading marketing for a multi-site business. Client details withheld.
+        </p>
+      </motion.div>
+
+      <AnimatePresence>
+        {openResult && <ResultModal key={openResult.id} r={openResult} onClose={() => setOpenId(null)} />}
+      </AnimatePresence>
+    </section>
   );
 }
 
@@ -455,8 +750,8 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* ── Sound familiar? (big statement) ── */}
-      <section style={{ background: CREAM, padding: "4rem 2rem 6rem" }}>
+      {/* ── Sound familiar? (compact so the whole card fits on one screen) ── */}
+      <section style={{ background: CREAM, padding: "2rem 2rem 4rem" }}>
         <motion.div
           initial={{ opacity: 0, y: 70, scale: 0.95 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -466,45 +761,45 @@ export default function Home() {
             position: "relative",
             overflow: "hidden",
             background: PINK,
-            borderRadius: "clamp(2.5rem,7vw,6rem) clamp(1.5rem,3vw,3rem) clamp(3rem,9vw,8rem) clamp(1.5rem,4vw,4rem)",
+            borderRadius: "clamp(2rem,5vw,4rem) clamp(1.25rem,3vw,2.5rem) clamp(2.5rem,7vw,5rem) clamp(1.25rem,4vw,3rem)",
             maxWidth: "1100px",
             margin: "0 auto",
             display: "flex",
             alignItems: "center",
-            padding: "clamp(5.5rem,8vw,6rem) clamp(2rem,6vw,5rem) clamp(3rem,6vw,5rem)",
+            padding: "clamp(3.5rem,6vw,4.5rem) clamp(1.75rem,5vw,4rem) clamp(2rem,4vw,3rem)",
             boxShadow: "0 40px 90px rgba(208,28,97,0.28)",
           }}
         >
           <div
             aria-hidden="true"
-            style={{ position: "absolute", right: "-6rem", bottom: "-6rem", width: "clamp(12rem,30vw,26rem)", height: "clamp(12rem,30vw,26rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
+            style={{ position: "absolute", right: "-4rem", bottom: "-4rem", width: "clamp(8rem,20vw,16rem)", height: "clamp(8rem,20vw,16rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
           />
           <RotatingBadge />
           <div style={{ position: "relative", zIndex: 1, maxWidth: "1000px" }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.22em", color: `${CREAM}B3`, textTransform: "uppercase", margin: "0 0 1.5rem" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.22em", color: `${CREAM}B3`, textTransform: "uppercase", margin: "0 0 1rem" }}>
               Sound familiar?
             </p>
-            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem,5.5vw,4.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 2.2rem" }}>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.9rem,4.2vw,3.2rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 1.4rem" }}>
               Great at what you do.
               <br />
               <span style={{ color: LIME }}>Not enough people know it.</span>
             </h2>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.7rem", margin: "0 0 2rem" }}>
-              {["Quiet months", "Ad spend you can't trace", "Enquiries that go nowhere", "Sydney & surrounds based"].map((chip) => (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", margin: "0 0 1.4rem" }}>
+              {["Quiet months", "not sure how to reach the right people", "Enquiries that go nowhere", "Sydney & surrounds based"].map((chip) => (
                 <span
                   key={chip}
-                  style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(0.9rem,1.4vw,1.05rem)", fontWeight: 500, color: CREAM, border: `1.5px solid ${CREAM}`, padding: "0.5rem 1.2rem", borderRadius: "9999px" }}
+                  style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(0.8rem,1.2vw,0.95rem)", fontWeight: 500, color: CREAM, border: `1.5px solid ${CREAM}`, padding: "0.4rem 1rem", borderRadius: "9999px" }}
                 >
                   {chip}
                 </span>
               ))}
             </div>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1.1rem,2vw,1.5rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 2.5rem", maxWidth: "720px" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1rem,1.5vw,1.2rem)", color: `${CREAM}E6`, lineHeight: 1.55, margin: "0 0 1.6rem", maxWidth: "680px" }}>
               I help local businesses get found by people searching right now, and turn them into real customers, not just clicks. If you're a small business in Sydney or the surrounding suburbs, I'd love to help.
             </p>
             <a
               href={MAILTO}
-              style={{ display: "inline-block", fontFamily: "'DM Sans', sans-serif", fontSize: "0.95rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, textDecoration: "none", padding: "0.95rem 2.4rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
+              style={{ display: "inline-block", fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, textDecoration: "none", padding: "0.8rem 2rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
             >
@@ -606,7 +901,7 @@ export default function Home() {
       </section>
 
       {/* ── About me ── */}
-      <section style={{ background: CREAM, padding: "7rem 2rem 2rem" }}>
+      <section style={{ background: CREAM, padding: "7rem 2rem 5rem" }}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -653,6 +948,9 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
+      {/* ── Results band (4 across) ── */}
+      <ResultsBand />
 
       {/* ── FAQ ── */}
       <FaqSection />
