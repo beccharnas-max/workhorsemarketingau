@@ -147,12 +147,12 @@ const RESULTS = [
   {
     id: "traffic",
     prefix: "+",
-    value: 52,
+    value: 43,
     suffix: "%",
     label: "website users, year on year",
     tag: "Website traffic",
-    fromNum: 6898,
-    toNum: 11838,
+    fromNum: 9252,
+    toNum: 13230,
     unit: "website users",
     extra: undefined as string | undefined,
     how: [
@@ -164,12 +164,12 @@ const RESULTS = [
   {
     id: "enquiries",
     prefix: "+",
-    value: 46,
+    value: 37,
     suffix: "%",
     label: "enquiries, year on year",
     tag: "Lead generation",
-    fromNum: 279,
-    toNum: 408,
+    fromNum: 189,
+    toNum: 258,
     unit: "enquiries",
     extra: "Up around 50% across the June to August peak." as string | undefined,
     how: [
@@ -200,12 +200,12 @@ const RESULTS = [
   {
     id: "spend",
     prefix: "−",
-    value: 27,
+    value: 24,
     suffix: "%",
     label: "paid social spend",
     tag: "Ad efficiency",
-    fromNum: 1903,
-    toNum: 39023,
+    fromNum: 1506,
+    toNum: 27054,
     unit: "link clicks",
     extra: "Spend went down while link clicks went up." as string | undefined,
     how: [
