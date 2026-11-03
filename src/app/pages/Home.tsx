@@ -25,28 +25,28 @@ const SERVICES_DATA = [
     number: "01",
     title: "Marketing Strategy & Planning",
     text: "Marketing strategy built around your business, so you grow and show up in the right places, not everywhere.",
-    lets talk: "Strategy & planning · Audience & competitor research",
+    includes: "Strategy & planning · Audience & competitor research",
   },
   {
     id: "found",
     number: "02",
     title: "Local SEO Optimisation & Google Business",
     text: "When someone nearby searches for what you do, your business shows up. I help make sure you're easy to find and easy to choose.",
-    lets talk: "Google Business · Local SEO",
+    includes: "Google Business · Local SEO",
   },
   {
     id: "campaigns",
     number: "03",
     title: "Paid Advertising & Campaigns",
     text: "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in calls and bookings, not just clicks.",
-    lets talk: "Local Meta & Google ad campaigns · Ad creative direction · Lead capture & follow-up",
+    includes: "Local Meta & Google ad campaigns · Ad creative direction · Lead capture & follow-up",
   },
   {
     id: "numbers",
     number: "04",
     title: "Tracking, Reporting & Optimisation",
     text: "Every call, form and booking is traced back to the ad that caused it. Each month you get a plain-English report, and I cut what isn't working.",
-    lets talk: "Tracking & analytics · Cost per lead · Ad spend optimisation · Monthly reporting",
+    includes: "Tracking & analytics · Cost per lead · Ad spend optimisation · Monthly reporting",
   },
 ];
 
@@ -809,6 +809,58 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* ── About me ── */}
+      <section style={{ background: CREAM, padding: "7rem 2rem 5rem" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid md:grid-cols-2"
+          style={{ maxWidth: "1000px", margin: "0 auto", gap: "3.5rem", alignItems: "center" }}
+        >
+          <div style={{ position: "relative", width: "100%", maxWidth: "420px", margin: "0 auto" }}>
+            <div
+              aria-hidden="true"
+              style={{ position: "absolute", inset: 0, transform: "translate(18px, 18px) rotate(4deg)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
+            />
+            <div style={{ position: "relative" }}>
+              <ImageSlot
+                src={ABOUT_IMAGE}
+                alt="Your marketing consultant"
+                ratio="4 / 5"
+                radius="58% 42% 63% 37% / 41% 55% 45% 59%"
+                label="Your photo here"
+              />
+            </div>
+          </div>
+          <div>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: PINK, marginBottom: "1rem" }}>
+              About me
+            </p>
+            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2rem, 4.5vw, 3.2rem)", textTransform: "uppercase", color: BLACK, lineHeight: 1, margin: "0 0 1.2rem" }}>
+              One consultant.
+              <br />
+              <span style={{ color: PINK }}>Zero agency layers.</span>
+            </h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}B3`, lineHeight: 1.75, margin: "0 0 1.8rem" }}>
+              I'm a marketing consultant, not an agency. I work directly with small business owners to build a plan that fits, run the campaigns and keep a close eye on every dollar. No account managers, no hand-offs. If you're a small business based in Sydney or nearby, I'm here to help.
+            </p>
+            <Link
+              to="/about"
+              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.18em", textTransform: "uppercase", color: BLACK, textDecoration: "none", border: `1px solid ${BLACK}33`, padding: "0.7rem 1.9rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.color = CREAM; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = BLACK; }}
+            >
+              More about me →
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── Results band (4 across) ── */}
+      <ResultsBand />
+
       {/* ── Services: plain-English cards on black ── */}
       <section style={{ background: BLACK, padding: "7rem 2rem" }}>
         <motion.div
@@ -899,58 +951,6 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-
-      {/* ── About me ── */}
-      <section style={{ background: CREAM, padding: "7rem 2rem 5rem" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE }}
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid md:grid-cols-2"
-          style={{ maxWidth: "1000px", margin: "0 auto", gap: "3.5rem", alignItems: "center" }}
-        >
-          <div style={{ position: "relative", width: "100%", maxWidth: "420px", margin: "0 auto" }}>
-            <div
-              aria-hidden="true"
-              style={{ position: "absolute", inset: 0, transform: "translate(18px, 18px) rotate(4deg)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
-            />
-            <div style={{ position: "relative" }}>
-              <ImageSlot
-                src={ABOUT_IMAGE}
-                alt="Your marketing consultant"
-                ratio="4 / 5"
-                radius="58% 42% 63% 37% / 41% 55% 45% 59%"
-                label="Your photo here"
-              />
-            </div>
-          </div>
-          <div>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: PINK, marginBottom: "1rem" }}>
-              About me
-            </p>
-            <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2rem, 4.5vw, 3.2rem)", textTransform: "uppercase", color: BLACK, lineHeight: 1, margin: "0 0 1.2rem" }}>
-              One consultant.
-              <br />
-              <span style={{ color: PINK }}>Zero agency layers.</span>
-            </h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}B3`, lineHeight: 1.75, margin: "0 0 1.8rem" }}>
-              I'm a marketing consultant, not an agency. I work directly with small business owners to build a plan that fits, run the campaigns and keep a close eye on every dollar. No account managers, no hand-offs. If you're a small business based in Sydney or nearby, I'm here to help.
-            </p>
-            <Link
-              to="/about"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.18em", textTransform: "uppercase", color: BLACK, textDecoration: "none", border: `1px solid ${BLACK}33`, padding: "0.7rem 1.9rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.color = CREAM; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = BLACK; }}
-            >
-              More about me →
-            </Link>
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── Results band (4 across) ── */}
-      <ResultsBand />
 
       {/* ── FAQ ── */}
       <FaqSection />
