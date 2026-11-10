@@ -13,7 +13,7 @@ const SERVICES_DETAIL_DATA = [
   {
     id: "plan",
     number: "01",
-    title: "A plan that fits",
+    title: "Marketing Strategy & Planning",
     bg: PINK, fg: CREAM, badgeBg: LIME, badgeFg: BLACK, radius: "40px 14px 40px 14px",
     intro:
       "Before I touch anything, I work out what matters for your business, so you grow and show up in the right places, not everywhere. I also work out what to spend and what to expect back, so you only pay for work you actually need.",
@@ -70,7 +70,7 @@ const SERVICES_DETAIL_DATA = [
   {
     id: "campaigns",
     number: "03",
-    title: "Campaigns, start to finish",
+    title: "Paid Search + Paid Social",
     bg: BLACK, fg: LIME, badgeBg: LIME, badgeFg: BLACK, radius: "40px 14px 40px 14px",
     intro:
       "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in calls and bookings, not just clicks.",
@@ -82,9 +82,10 @@ const SERVICES_DETAIL_DATA = [
       {
         label: "Run" as string | undefined,
         items: [
-          "Local Meta & Google ad campaigns",
+          "Meta Campaigns",
+          "Google Responsive Search Campaigns",
           "Ad creative direction",
-          "Lead capture & follow-up automation",
+          "Brand Campaigns — for awareness and long-term growth",
         ],
       },
       {
@@ -99,7 +100,7 @@ const SERVICES_DETAIL_DATA = [
   {
     id: "numbers",
     number: "04",
-    title: "Know your numbers, spend less",
+    title: "Tracking, Reporting & Optimisation",
     bg: PINK, fg: CREAM, badgeBg: LIME, badgeFg: BLACK, radius: "14px 40px 14px 40px",
     intro:
       "Every call, form and booking is traced back to the ad that caused it, so you know exactly what your money is earning. Then I cut what isn't working.",
@@ -219,7 +220,7 @@ const RESULTS = [
 type Result = (typeof RESULTS)[number];
 
 const FOOTER_SERVICES = [
-  "A plan that fits",
+  "MARKETING STRATEGY & PLANNING",
   "Get found",
   "Campaigns, start to finish",
   "Know your numbers, spend less",

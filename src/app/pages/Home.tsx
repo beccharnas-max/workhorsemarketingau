@@ -30,22 +30,22 @@ const SERVICES_DATA = [
   {
     id: "found",
     number: "02",
-    title: "Local SEO Optimisation & Google Business",
+    title: "Local SEO Optimisation & Search Visability",
     text: "When someone nearby searches for what you do, your business shows up. I help make sure you're easy to find and easy to choose.",
-    includes: "Google Business · Local SEO",
+    includes: "Google Business Profile · Local SEO · Local keyword research · Search visibility audits · on page SEO",
   },
   {
     id: "campaigns",
     number: "03",
-    title: "Paid Advertising & Campaigns",
-    text: "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in calls and bookings, not just clicks.",
-    includes: "Local Meta & Google ad campaigns · Ad creative direction · Lead capture & follow-up",
+    title: "Paid Search + Paid Social",
+    text: "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in leads, sales and bookings, not just clicks.",
+    includes: "Meta (Facebook & Instagram) & Google responsive search Ads · Ad creative direction · Lead capture & landing pages · Campaign tracking & reporting",
   },
   {
     id: "numbers",
     number: "04",
     title: "Tracking, Reporting & Optimisation",
-    text: "Every call, form and booking is traced back to the ad that caused it. Each month you get a plain-English report, and I cut what isn't working.",
+    text: "I set up Google Analytics properly, so you can see which ads and channels drive real results. Each month you get an easy to digest report, and I use the data to cut what isn't working and put more into what is.",
     includes: "Tracking & analytics · Cost per lead · Ad spend optimisation · Monthly reporting",
   },
 ];
@@ -927,7 +927,7 @@ export default function Home() {
                 Need photos or video?
               </h3>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: `${CREAM}B3`, lineHeight: 1.7, margin: 0 }}>
-                I'm not a graphic designer, and I'll tell you straight. I'll put you in touch with the right people for design, and help source photography and videography, writing the briefs and working directly with my contacts.
+                I work with some great photographers, videographers and designers. I'll always aim to put you in touch with the right people for your needs. I specialise in leading shoots, writing the briefs and working directly with my contacts.
               </p>
             </div>
             <ImageSlot
