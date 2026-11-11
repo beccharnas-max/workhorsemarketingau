@@ -11,8 +11,10 @@ import image2 from "../../public/chair1.jpg";
 import image3 from "../../public/Beccmaincrop.jpg";
 
 const PINK = "#d01c61";
-const LIME = "#D2F53C";
-const MAILTO = "mailto:helloworkhorseco@gmail.com";
+const LIME = "#D2F53C"; // original accent
+const SOFT_PINK = "#FFDAF8"; // soft pink sampled from the Workhorse social graphic
+const USE_SOFT_PINK = true; // set to false to switch the whole page back to lime
+const ACCENT = USE_SOFT_PINK ? SOFT_PINK : LIME;
 
 // Photos: About me block, "Need photos or video?" block, and the scrolling strip above the footer
 const ABOUT_IMAGE: string | undefined = beccImage;
@@ -30,7 +32,7 @@ const SERVICES_DATA = [
   {
     id: "found",
     number: "02",
-    title: "Local SEO Optimisation & Search Visability",
+    title: "Local SEO Optimisation & Search Visibility",
     text: "When someone nearby searches for what you do, your business shows up. I help make sure you're easy to find and easy to choose.",
     includes: "Google Business Profile · Local SEO · Local keyword research · Search visibility audits · on page SEO",
   },
@@ -51,10 +53,10 @@ const SERVICES_DATA = [
 ];
 
 const CARD_THEMES = [
-  { bg: PINK, fg: CREAM, muted: `${CREAM}D9`, line: `${CREAM}40`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px" },
-  { bg: LIME, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: LIME, radius: "16px 56px 16px 56px" },
+  { bg: PINK, fg: CREAM, muted: `${CREAM}D9`, line: `${CREAM}40`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px" },
+  { bg: ACCENT, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: ACCENT, radius: "16px 56px 16px 56px" },
   { bg: CREAM, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}1F`, badgeBg: PINK, badgeFg: CREAM, radius: "16px 56px 16px 56px" },
-  { bg: PINK, fg: CREAM, muted: `${CREAM}D9`, line: `${CREAM}40`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px" },
+  { bg: PINK, fg: CREAM, muted: `${CREAM}D9`, line: `${CREAM}40`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px" },
 ];
 
 const FAQS = [
@@ -104,7 +106,7 @@ const RESULTS = [
       "Built email sign-up and automation foundations: website form, sign-up block and pop-up, connected to the email platform.",
       "Launched Meta Ads alongside it, shifting budget toward what was working.",
     ],
-    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+    bg: BLACK, fg: ACCENT, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px",
   },
   {
     id: "enquiries",
@@ -122,7 +124,7 @@ const RESULTS = [
       "Tested pricing and messaging against real demand to lift conversion.",
       "Planned campaigns around the peak season.",
     ],
-    bg: LIME, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: LIME, radius: "16px 56px 16px 56px",
+    bg: ACCENT, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: ACCENT, radius: "16px 56px 16px 56px",
   },
   {
     id: "cost",
@@ -157,7 +159,7 @@ const RESULTS = [
       "Used live dashboards to test and move budget toward what drove results.",
       "Cut what wasn't working instead of spreading spend thin.",
     ],
-    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+    bg: BLACK, fg: ACCENT, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px",
   },
 ];
 
@@ -212,10 +214,10 @@ function RotatingBadge() {
       transition={{ type: "spring", stiffness: 160, damping: 12, delay: 0.5 }}
       style={{ position: "absolute", top: "clamp(1rem, 2.5vw, 2rem)", right: "clamp(1.25rem, 4vw, 3rem)", zIndex: 5, width: "clamp(68px, 8vw, 92px)", height: "clamp(68px, 8vw, 92px)" }}
     >
-      <a
-        href={MAILTO}
+      <Link
+        to="/contact"
         aria-label="Say hello"
-        style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%", borderRadius: "50%", background: LIME, border: `3px solid ${BLACK}`, boxShadow: "0 12px 30px rgba(0,0,0,0.2)", textDecoration: "none", transition: "transform 0.25s cubic-bezier(0.22,1,0.36,1)" }}
+        style={{ position: "relative", display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%", borderRadius: "50%", background: ACCENT, border: `3px solid ${BLACK}`, boxShadow: "0 12px 30px rgba(0,0,0,0.2)", textDecoration: "none", transition: "transform 0.25s cubic-bezier(0.22,1,0.36,1)" }}
         onMouseEnter={(e) => { e.currentTarget.style.transform = "scale(1.1)"; }}
         onMouseLeave={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
       >
@@ -234,7 +236,7 @@ function RotatingBadge() {
           </text>
         </motion.svg>
         <span style={{ position: "relative", fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", fontWeight: 700, color: BLACK, lineHeight: 1 }}>↗</span>
-      </a>
+      </Link>
     </motion.div>
   );
 }
@@ -405,13 +407,13 @@ function ResultsBand() {
               Results
             </p>
             <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", textTransform: "uppercase", color: CREAM, lineHeight: 0.95, margin: 0 }}>
-              Numbers, <span style={{ color: LIME }}>not promises.</span>
+              Numbers, <span style={{ color: ACCENT }}>not promises.</span>
             </h2>
           </div>
           <Link
             to="/services"
             style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.18em", textTransform: "uppercase", color: CREAM, textDecoration: "none", border: `1px solid ${CREAM}80`, padding: "0.6rem 1.5rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.color = BLACK; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.color = BLACK; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = `${CREAM}80`; e.currentTarget.style.color = CREAM; }}
           >
             See how I work →
@@ -483,7 +485,7 @@ function FaqSection() {
                   {f.q}
                 </span>
                 <span
-                  style={{ width: 38, height: 38, borderRadius: "50%", background: isOpen ? PINK : LIME, color: isOpen ? CREAM : BLACK, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", lineHeight: 1, transform: isOpen ? "rotate(45deg)" : "rotate(0deg)", transition: "transform 0.3s cubic-bezier(0.22,1,0.36,1), background 0.2s, color 0.2s" }}
+                  style={{ width: 38, height: 38, borderRadius: "50%", background: isOpen ? PINK : ACCENT, color: isOpen ? CREAM : BLACK, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", lineHeight: 1, transform: isOpen ? "rotate(45deg)" : "rotate(0deg)", transition: "transform 0.3s cubic-bezier(0.22,1,0.36,1), background 0.2s, color 0.2s" }}
                 >
                   +
                 </span>
@@ -664,7 +666,7 @@ export default function Home() {
               rotate: { duration: 9, repeat: Infinity, ease: "easeInOut" },
               y: { duration: 7, repeat: Infinity, ease: "easeInOut" },
             }}
-            style={{ position: "absolute", top: "2.2rem", left: "3.2rem", right: "0.2rem", bottom: "-2.4rem", background: LIME, borderRadius: HERO_BLOB, zIndex: 0 }}
+            style={{ position: "absolute", top: "2.2rem", left: "3.2rem", right: "0.2rem", bottom: "-2.4rem", background: ACCENT, borderRadius: HERO_BLOB, zIndex: 0 }}
           />
 
           <div
@@ -699,7 +701,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.85, duration: 0.8, ease: EASE }}
-                style={{ display: "block", color: LIME }}
+                style={{ display: "block", color: ACCENT }}
               >
                 No Agency Run-Around.
               </motion.span>
@@ -710,14 +712,14 @@ export default function Home() {
               transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
               style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", alignItems: "center" }}
             >
-              <a
-                href={MAILTO}
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, padding: "0.8rem 2.1rem", textDecoration: "none", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
+              <Link
+                to="/contact"
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: BLACK, background: ACCENT, border: `1.5px solid ${ACCENT}`, padding: "0.8rem 2.1rem", textDecoration: "none", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.transform = "translateY(0)"; }}
               >
                 Let's talk →
-              </a>
+              </Link>
               <Link
                 to="/services"
                 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.14em", textTransform: "uppercase", color: CREAM, border: `1.5px solid ${CREAM}`, background: "transparent", padding: "0.8rem 1.8rem", textDecoration: "none", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
@@ -739,7 +741,7 @@ export default function Home() {
               scale: { delay: 1.3, type: "spring", stiffness: 180, damping: 12 },
               rotate: { delay: 1.3, duration: 5, repeat: Infinity, ease: "easeInOut" },
             }}
-            style={{ position: "absolute", top: "-1.4rem", right: "0.6rem", zIndex: 20, width: "clamp(92px, 14vw, 132px)", height: "clamp(92px, 14vw, 132px)", borderRadius: "50%", background: LIME, color: BLACK, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(0.95rem, 1.8vw, 1.3rem)", lineHeight: 1, textTransform: "uppercase", boxShadow: "0 12px 30px rgba(0,0,0,0.18)", border: `3px solid ${BLACK}` }}
+            style={{ position: "absolute", top: "-1.4rem", right: "0.6rem", zIndex: 20, width: "clamp(92px, 14vw, 132px)", height: "clamp(92px, 14vw, 132px)", borderRadius: "50%", background: ACCENT, color: BLACK, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(0.95rem, 1.8vw, 1.3rem)", lineHeight: 1, textTransform: "uppercase", boxShadow: "0 12px 30px rgba(0,0,0,0.18)", border: `3px solid ${BLACK}` }}
           >
             A consultant,
             <br />
@@ -772,7 +774,7 @@ export default function Home() {
         >
           <div
             aria-hidden="true"
-            style={{ position: "absolute", right: "-4rem", bottom: "-4rem", width: "clamp(8rem,20vw,16rem)", height: "clamp(8rem,20vw,16rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
+            style={{ position: "absolute", right: "-4rem", bottom: "-4rem", width: "clamp(8rem,20vw,16rem)", height: "clamp(8rem,20vw,16rem)", background: ACCENT, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
           />
           <RotatingBadge />
           <div style={{ position: "relative", zIndex: 1, maxWidth: "1000px" }}>
@@ -782,7 +784,7 @@ export default function Home() {
             <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.9rem,4.2vw,3.2rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 1.4rem" }}>
               Great at what you do.
               <br />
-              <span style={{ color: LIME }}>Not enough people know it.</span>
+              <span style={{ color: ACCENT }}>Not enough people know it.</span>
             </h2>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", margin: "0 0 1.4rem" }}>
               {["Quiet months", "not sure how to reach the right people", "Enquiries that go nowhere", "Sydney & surrounds based"].map((chip) => (
@@ -797,14 +799,14 @@ export default function Home() {
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1rem,1.5vw,1.2rem)", color: `${CREAM}E6`, lineHeight: 1.55, margin: "0 0 1.6rem", maxWidth: "680px" }}>
               I help local businesses get found by people searching right now, and turn them into real customers, not just clicks. If you're a small business in Sydney or the surrounding suburbs, I'd love to help.
             </p>
-            <a
-              href={MAILTO}
-              style={{ display: "inline-block", fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, textDecoration: "none", padding: "0.8rem 2rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
+            <Link
+              to="/contact"
+              style={{ display: "inline-block", fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: ACCENT, border: `1.5px solid ${ACCENT}`, textDecoration: "none", padding: "0.8rem 2rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
               onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.transform = "translateY(0)"; }}
             >
               Let's talk →
-            </a>
+            </Link>
           </div>
         </motion.div>
       </section>
@@ -822,7 +824,7 @@ export default function Home() {
           <div style={{ position: "relative", width: "100%", maxWidth: "420px", margin: "0 auto" }}>
             <div
               aria-hidden="true"
-              style={{ position: "absolute", inset: 0, transform: "translate(18px, 18px) rotate(4deg)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
+              style={{ position: "absolute", inset: 0, transform: "translate(18px, 18px) rotate(4deg)", background: ACCENT, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
             />
             <div style={{ position: "relative" }}>
               <ImageSlot
@@ -870,13 +872,13 @@ export default function Home() {
           viewport={{ once: true, amount: 0.1 }}
           style={{ maxWidth: "1000px", margin: "0 auto" }}
         >
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: LIME, marginBottom: "1rem" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: ACCENT, marginBottom: "1rem" }}>
             What I do
           </p>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem, 5.5vw, 4rem)", textTransform: "uppercase", color: CREAM, lineHeight: 0.95, margin: "0 0 1.2rem" }}>
             Here's what changes
             <br />
-            <span style={{ color: LIME }}>for your business.</span>
+            <span style={{ color: ACCENT }}>for your business.</span>
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: `${CREAM}B3`, lineHeight: 1.7, margin: "0 0 3.5rem", maxWidth: "560px" }}>
             No messing around. A plan that fits, a business that gets found, campaigns that bring in enquiries, and full control of your ad spend.
@@ -920,7 +922,7 @@ export default function Home() {
             style={{ marginTop: "1.5rem", gap: "2rem", alignItems: "center", border: `1.5px solid ${CREAM}33`, borderRadius: "56px 16px 56px 16px", padding: "clamp(1.8rem,4vw,3rem)" }}
           >
             <div>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: LIME, margin: "0 0 0.8rem" }}>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: ACCENT, margin: "0 0 0.8rem" }}>
                 Content & creative
               </p>
               <h3 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.6rem, 3vw, 2.2rem)", textTransform: "uppercase", color: CREAM, lineHeight: 1, margin: "0 0 1rem" }}>
@@ -943,7 +945,7 @@ export default function Home() {
             <Link
               to="/services"
               style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.18em", textTransform: "uppercase", color: CREAM, textDecoration: "none", border: `1px solid ${CREAM}66`, padding: "0.7rem 1.9rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.color = BLACK; }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.color = BLACK; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = CREAM; }}
             >
               All services →
@@ -966,7 +968,7 @@ export default function Home() {
             maxWidth: "760px",
             width: "100%",
             textAlign: "center",
-            background: LIME,
+            background: ACCENT,
             borderRadius: "46% 54% 58% 42% / 44% 40% 60% 56%",
             padding: "clamp(3.5rem,8vw,6.5rem) clamp(2.5rem,6vw,5.5rem)",
             boxShadow: "0 30px 70px rgba(0,0,0,0.14)",
@@ -978,14 +980,14 @@ export default function Home() {
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.2rem", color: `${BLACK}E6`, lineHeight: 1.85, margin: 0 }}>
             The marketing industry loves to make itself sound complicated. I don't. You'll work directly with me, and you'll always know what I'm doing, why I'm doing it, where your ad spend is going and what it's delivering. That's the whole deal.
           </p>
-          <a
-            href={MAILTO}
+          <Link
+            to="/contact"
             style={{ display: "inline-block", marginTop: "2rem", fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CREAM, background: BLACK, border: `1.5px solid ${BLACK}`, textDecoration: "none", padding: "0.85rem 2.2rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
             onMouseEnter={(e) => { e.currentTarget.style.background = PINK; e.currentTarget.style.borderColor = PINK; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.borderColor = BLACK; }}
           >
             Get in touch →
-          </a>
+          </Link>
         </motion.div>
       </section>
 

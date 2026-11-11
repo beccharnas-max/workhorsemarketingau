@@ -6,7 +6,10 @@ import { CREAM, BLACK, EASE } from "../constants";
 
 const PINK = "#d01c61";
 // Third brand colour (same as Home and About). Tip: move PINK and LIME into ../constants so every page shares them.
-const LIME = "#D2F53C";
+const LIME = "#D2F53C"; // original accent
+const SOFT_PINK = "#FFDAF8"; // soft pink sampled from the Workhorse social graphic
+const USE_SOFT_PINK = true; // set to false to switch the whole page back to lime
+const ACCENT = USE_SOFT_PINK ? SOFT_PINK : LIME;
 
 /** Four services, same as the home page, with a little more detail. */
 const SERVICES_DETAIL_DATA = [
@@ -14,7 +17,7 @@ const SERVICES_DETAIL_DATA = [
     id: "plan",
     number: "01",
     title: "Marketing Strategy & Planning",
-    bg: PINK, fg: CREAM, badgeBg: LIME, badgeFg: BLACK, radius: "40px 14px 40px 14px",
+    bg: PINK, fg: CREAM, badgeBg: ACCENT, badgeFg: BLACK, radius: "40px 14px 40px 14px",
     intro:
       "Before I touch anything, I work out what matters for your business, so you grow and show up in the right places, not everywhere. I also work out what to spend and what to expect back, so you only pay for work you actually need.",
     groups: [
@@ -50,7 +53,7 @@ const SERVICES_DETAIL_DATA = [
     id: "found",
     number: "02",
     title: "Get found",
-    bg: LIME, fg: BLACK, badgeBg: BLACK, badgeFg: LIME, radius: "14px 40px 14px 40px",
+    bg: ACCENT, fg: BLACK, badgeBg: BLACK, badgeFg: ACCENT, radius: "14px 40px 14px 40px",
     intro:
       "When someone nearby searches for what you do, your business shows up and looks like the obvious choice. Reviews are a big part of that: they help you rank, and they decide who gets the call.",
     groups: [
@@ -71,7 +74,7 @@ const SERVICES_DETAIL_DATA = [
     id: "campaigns",
     number: "03",
     title: "Paid Search + Paid Social",
-    bg: BLACK, fg: LIME, badgeBg: LIME, badgeFg: BLACK, radius: "40px 14px 40px 14px",
+    bg: BLACK, fg: ACCENT, badgeBg: ACCENT, badgeFg: BLACK, radius: "40px 14px 40px 14px",
     intro:
       "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in calls and bookings, not just clicks.",
     groups: [
@@ -101,7 +104,7 @@ const SERVICES_DETAIL_DATA = [
     id: "numbers",
     number: "04",
     title: "Tracking, Reporting & Optimisation",
-    bg: PINK, fg: CREAM, badgeBg: LIME, badgeFg: BLACK, radius: "14px 40px 14px 40px",
+    bg: PINK, fg: CREAM, badgeBg: ACCENT, badgeFg: BLACK, radius: "14px 40px 14px 40px",
     intro:
       "Every call, form and booking is traced back to the ad that caused it, so you know exactly what your money is earning. Then I cut what isn't working.",
     groups: [
@@ -124,13 +127,13 @@ const STEPS = [
     number: "01",
     title: "A chat",
     text: "We talk about your business, your customers and what isn't working. No pressure, no pitch deck.",
-    bg: PINK, fg: CREAM, muted: `${CREAM}D9`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+    bg: PINK, fg: CREAM, muted: `${CREAM}D9`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px",
   },
   {
     number: "02",
     title: "A plan",
     text: "I put together a plan that fits your goals and budget, and tell you straight what's worth doing.",
-    bg: LIME, fg: BLACK, muted: `${BLACK}B3`, badgeBg: BLACK, badgeFg: LIME, radius: "16px 56px 16px 56px",
+    bg: ACCENT, fg: BLACK, muted: `${BLACK}B3`, badgeBg: BLACK, badgeFg: ACCENT, radius: "16px 56px 16px 56px",
   },
   {
     number: "03",
@@ -160,7 +163,7 @@ const RESULTS = [
       "Built email sign-up and automation foundations: website form, sign-up block and pop-up, connected to the email platform.",
       "Launched Meta Ads alongside it, shifting budget toward what was working.",
     ],
-    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+    bg: BLACK, fg: ACCENT, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px",
   },
   {
     id: "enquiries",
@@ -178,7 +181,7 @@ const RESULTS = [
       "Tested pricing and messaging against real demand to lift conversion.",
       "Planned campaigns around the peak season.",
     ],
-    bg: LIME, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: LIME, radius: "16px 56px 16px 56px",
+    bg: ACCENT, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: ACCENT, radius: "16px 56px 16px 56px",
   },
   {
     id: "cost",
@@ -213,7 +216,7 @@ const RESULTS = [
       "Used live dashboards to test and move budget toward what drove results.",
       "Cut what wasn't working instead of spreading spend thin.",
     ],
-    bg: BLACK, fg: LIME, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: LIME, badgeFg: BLACK, radius: "56px 16px 56px 16px",
+    bg: BLACK, fg: ACCENT, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px",
   },
 ];
 
@@ -416,7 +419,7 @@ export default function Services() {
             aria-hidden="true"
             animate={{ rotate: [0, 8, 0], y: [0, -10, 0] }}
             transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-            style={{ position: "absolute", right: "-4rem", bottom: "-4rem", width: "clamp(8rem,18vw,16rem)", height: "clamp(8rem,18vw,16rem)", background: LIME, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
+            style={{ position: "absolute", right: "-4rem", bottom: "-4rem", width: "clamp(8rem,18vw,16rem)", height: "clamp(8rem,18vw,16rem)", background: ACCENT, borderRadius: "58% 42% 63% 37% / 41% 55% 45% 59%" }}
           />
           <div style={{ position: "relative", zIndex: 1, maxWidth: "900px" }}>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", letterSpacing: "0.22em", color: `${CREAM}B3`, textTransform: "uppercase", margin: "0 0 1rem" }}>
@@ -425,7 +428,7 @@ export default function Services() {
             <h1 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.4rem,6vw,4.5rem)", lineHeight: 0.92, color: CREAM, textTransform: "uppercase", margin: "0 0 1.25rem" }}>
               Here's what I do.
               <br />
-              <span style={{ color: LIME }}>Easy to Digest</span>
+              <span style={{ color: ACCENT }}>Easy to Digest</span>
             </h1>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(1rem,1.6vw,1.2rem)", color: `${CREAM}E6`, lineHeight: 1.6, margin: "0 0 1.5rem", maxWidth: "640px" }}>
               I help small businesses get found, get more enquiries and see exactly where every ad dollar goes. Four things, no jargon.
@@ -433,9 +436,9 @@ export default function Services() {
             <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", alignItems: "center" }}>
               <Link
                 to="/contact"
-                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: LIME, border: `1.5px solid ${LIME}`, textDecoration: "none", padding: "0.85rem 2.2rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
+                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.9rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: ACCENT, border: `1.5px solid ${ACCENT}`, textDecoration: "none", padding: "0.85rem 2.2rem", transition: "background 0.2s, border-color 0.2s, transform 0.2s", borderRadius: "9999px" }}
                 onMouseEnter={(e) => { e.currentTarget.style.background = CREAM; e.currentTarget.style.borderColor = CREAM; e.currentTarget.style.transform = "translateY(-2px)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = LIME; e.currentTarget.style.borderColor = LIME; e.currentTarget.style.transform = "translateY(0)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.transform = "translateY(0)"; }}
               >
                 Let's talk →
               </Link>
@@ -552,13 +555,13 @@ export default function Services() {
           viewport={{ once: true, amount: 0.1 }}
           style={{ maxWidth: "1000px", margin: "0 auto" }}
         >
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: LIME, marginBottom: "1rem" }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: ACCENT, marginBottom: "1rem" }}>
             How it works
           </p>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem, 5.5vw, 4rem)", textTransform: "uppercase", color: CREAM, lineHeight: 0.95, margin: "0 0 3rem" }}>
             Three steps.
             <br />
-            <span style={{ color: LIME }}>No surprises.</span>
+            <span style={{ color: ACCENT }}>No surprises.</span>
           </h2>
 
           <div className="grid md:grid-cols-3" style={{ gap: "1.5rem" }}>
@@ -584,7 +587,7 @@ export default function Services() {
 
           {/* Not for me: design, websites, day-to-day social */}
           <div style={{ marginTop: "1.5rem", border: `1.5px solid ${CREAM}33`, borderRadius: "16px 56px 16px 56px", padding: "clamp(1.6rem,3vw,2.2rem)" }}>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: LIME, margin: "0 0 0.7rem" }}>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: ACCENT, margin: "0 0 0.7rem" }}>
               Need design, a website or social posting?
             </p>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1rem", color: `${CREAM}B3`, lineHeight: 1.7, margin: 0 }}>
@@ -609,7 +612,7 @@ export default function Services() {
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(2.2rem, 5.5vw, 4rem)", textTransform: "uppercase", color: CREAM, lineHeight: 0.95, margin: "0 0 1.2rem" }}>
             Numbers,
             <br />
-            <span style={{ color: LIME }}>not promises.</span>
+            <span style={{ color: ACCENT }}>not promises.</span>
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: `${CREAM}E6`, lineHeight: 1.7, margin: "0 0 3.5rem", maxWidth: "560px" }}>
             Real results from my work leading marketing for a multi-site business. Tap a number to see what changed.
@@ -661,7 +664,7 @@ export default function Services() {
             maxWidth: "760px",
             width: "100%",
             textAlign: "center",
-            background: LIME,
+            background: ACCENT,
             borderRadius: "46% 54% 58% 42% / 44% 40% 60% 56%",
             padding: "clamp(3.5rem,8vw,6rem) clamp(2.5rem,6vw,5rem)",
             boxShadow: "0 30px 70px rgba(0,0,0,0.14)",
@@ -683,14 +686,6 @@ export default function Services() {
             >
               Let's talk →
             </Link>
-            <a
-              href="mailto:helloworkhorseco@gmail.com"
-              style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.85rem", letterSpacing: "0.16em", textTransform: "uppercase", color: BLACK, background: "transparent", border: `1.5px solid ${BLACK}`, textDecoration: "none", padding: "0.8rem 1.8rem", transition: "background 0.2s, color 0.2s", borderRadius: "9999px" }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = BLACK; e.currentTarget.style.color = LIME; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = BLACK; }}
-            >
-              Email me
-            </a>
           </div>
         </motion.div>
       </section>
