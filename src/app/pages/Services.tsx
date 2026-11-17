@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useInView, useReducedMotion } from "motion/react";
 import { Link } from "react-router";
-import * as Accordion from "@radix-ui/react-accordion";
 import { CREAM, BLACK, EASE } from "../constants";
 
 const PINK = "#d01c61";
@@ -11,18 +10,19 @@ const SOFT_PINK = "#FFDAF8"; // soft pink sampled from the Workhorse social grap
 const USE_SOFT_PINK = true; // set to false to switch the whole page back to lime
 const ACCENT = USE_SOFT_PINK ? SOFT_PINK : LIME;
 
-/** Four services, same as the home page, with a little more detail. */
+/** Four services, one content block each. Edit the copy here. */
 const SERVICES_DETAIL_DATA = [
   {
     id: "plan",
     number: "01",
     title: "Marketing Strategy & Planning",
-    bg: PINK, fg: CREAM, badgeBg: ACCENT, badgeFg: BLACK, radius: "40px 14px 40px 14px",
+    tag: "Strategy",
+    bg: PINK, fg: CREAM, muted: `${CREAM}D9`, line: `${CREAM}40`, badgeBg: ACCENT, badgeFg: BLACK, radius: "56px 16px 56px 16px",
     intro:
       "Before I touch anything, I work out what matters for your business, so you grow and show up in the right places, not everywhere. I also work out what to spend and what to expect back, so you only pay for work you actually need.",
     groups: [
       {
-        label: undefined as string | undefined,
+        label: "Plan" as string | undefined,
         items: [
           "Marketing strategy & plan",
           "Market & competitor research",
@@ -50,45 +50,28 @@ const SERVICES_DETAIL_DATA = [
     ],
   },
   {
-    id: "found",
+    id: "search",
     number: "02",
-    title: "Get found",
-    bg: ACCENT, fg: BLACK, badgeBg: BLACK, badgeFg: ACCENT, radius: "14px 40px 14px 40px",
+    title: "Paid Search",
+    tag: "Google Responsive Search · PPC",
+    bg: BLACK, fg: ACCENT, muted: `${CREAM}B3`, line: `${CREAM}33`, badgeBg: ACCENT, badgeFg: BLACK, radius: "16px 56px 16px 56px",
     intro:
-      "When someone nearby searches for what you do, your business shows up and looks like the obvious choice. Reviews are a big part of that: they help you rank, and they decide who gets the call.",
+      "When someone searches for what you do, your ad is right there. I plan, set up and run Google Responsive Search campaigns built to bring in calls, enquiries and bookings, not just clicks.",
     groups: [
       {
-        label: "Be visible" as string | undefined,
-        items: ["Google Business Profile setup", "Local SEO"],
-      },
-      {
-        label: "Be the obvious choice" as string | undefined,
+        label: "Set up" as string | undefined,
         items: [
-          "Review generation: simple ways to get more 5-star reviews",
-          "Review replies and reputation monitoring",
+          "Google Responsive Search Ads (PPC) strategy & build",
+          "Keyword research & campaign structure",
+          "Ad copy written and tested for conversions",
         ],
       },
-    ],
-  },
-  {
-    id: "campaigns",
-    number: "03",
-    title: "Paid Search + Paid Social",
-    bg: BLACK, fg: ACCENT, badgeBg: ACCENT, badgeFg: BLACK, radius: "40px 14px 40px 14px",
-    intro:
-      "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in calls and bookings, not just clicks.",
-    groups: [
       {
-        label: "Plan" as string | undefined,
-        items: ["Paid ads strategy", "Audience analysis", "Competitor landscape"],
-      },
-      {
-        label: "Run" as string | undefined,
+        label: "Optimise" as string | undefined,
         items: [
-          "Meta Campaigns",
-          "Google Responsive Search Campaigns",
-          "Ad creative direction",
-          "Brand Campaigns — for awareness and long-term growth",
+          "Search term & keyword reviews",
+          "Wasted spend reduction",
+          "Budget & bid management",
         ],
       },
       {
@@ -101,10 +84,34 @@ const SERVICES_DETAIL_DATA = [
     ],
   },
   {
+    id: "social",
+    number: "03",
+    title: "Paid Social",
+    tag: "Meta · Facebook & Instagram",
+    bg: ACCENT, fg: BLACK, muted: `${BLACK}B3`, line: `${BLACK}26`, badgeBg: BLACK, badgeFg: ACCENT, radius: "56px 16px 56px 16px",
+    intro:
+      "I plan, set up and run your Meta campaigns from first idea to launch to results. Built to put you in front of the right people and bring in leads and sales, not just likes.",
+    groups: [
+      {
+        label: "Plan" as string | undefined,
+        items: ["Audience analysis & targeting", "Competitor landscape", "Ad creative direction"],
+      },
+      {
+        label: "Run" as string | undefined,
+        items: [
+          "Meta campaigns (Facebook & Instagram)",
+          "Lead capture & follow-up",
+          "Brand campaigns: for awareness and long-term growth",
+        ],
+      },
+    ],
+  },
+  {
     id: "numbers",
     number: "04",
     title: "Tracking, Reporting & Optimisation",
-    bg: PINK, fg: CREAM, badgeBg: ACCENT, badgeFg: BLACK, radius: "14px 40px 14px 40px",
+    tag: "Analytics",
+    bg: PINK, fg: CREAM, muted: `${CREAM}D9`, line: `${CREAM}40`, badgeBg: ACCENT, badgeFg: BLACK, radius: "16px 56px 16px 56px",
     intro:
       "Every call, form and booking is traced back to the ad that caused it, so you know exactly what your money is earning. Then I cut what isn't working.",
     groups: [
@@ -223,10 +230,10 @@ const RESULTS = [
 type Result = (typeof RESULTS)[number];
 
 const FOOTER_SERVICES = [
-  "MARKETING STRATEGY & PLANNING",
-  "Get found",
-  "Campaigns, start to finish",
-  "Know your numbers, spend less",
+  "Marketing Strategy & Planning",
+  "Paid Search",
+  "Paid Social",
+  "Tracking, Reporting & Optimisation",
 ];
 
 /** Number that counts up once it scrolls into view (respects reduced motion). */
@@ -385,17 +392,12 @@ export default function Services() {
       .querySelector('meta[name="description"]')
       ?.setAttribute(
         "content",
-        "Marketing strategy, local SEO, Google reviews, Meta & Google ad campaigns and monthly reporting for Sydney small businesses. One consultant, no agency layers."
+        "Marketing strategy, Google paid search, Meta paid social and monthly reporting for Sydney small businesses. One consultant, no agency layers."
       );
   }, []);
 
   return (
     <div style={{ background: CREAM, paddingTop: "4.5rem", overflowX: "clip" }}>
-      <style>{`
-        .wh-acc-icon { transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); }
-        [data-state="open"] > .wh-acc-icon, [data-state="open"] .wh-acc-icon { transform: rotate(45deg); }
-      `}</style>
-
       {/* ── Hero panel ── */}
       <section style={{ padding: "1.5rem 1rem 2.5rem" }}>
         <motion.div
@@ -455,95 +457,70 @@ export default function Services() {
         </motion.div>
       </section>
 
-      {/* ── Accordion: the four services ── */}
-      <section style={{ padding: "3rem 2rem 6rem", maxWidth: "900px", margin: "0 auto" }}>
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          viewport={{ once: true, amount: 0.1 }}
-        >
+      {/* ── The four services: one open content block each ── */}
+      <section style={{ padding: "3rem 1.5rem 6rem" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.8rem", letterSpacing: "0.22em", textTransform: "uppercase", color: PINK, marginBottom: "1rem" }}>
-            What's included
+            What I do
           </p>
           <h2 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", textTransform: "uppercase", color: BLACK, lineHeight: 1, margin: "0 0 2.5rem" }}>
-            Tap a service
+            Four ways
             <br />
-            <span style={{ color: PINK }}>to see the detail.</span>
+            <span style={{ color: PINK }}>I help.</span>
           </h2>
 
-          <Accordion.Root type="single" collapsible defaultValue="plan">
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             {SERVICES_DETAIL_DATA.map((svc) => (
-              <Accordion.Item key={svc.id} value={svc.id}>
-                <Accordion.Header style={{ margin: 0 }}>
-                  <Accordion.Trigger
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      gap: "1rem",
-                      padding: "1.4rem 1.75rem",
-                      background: svc.bg,
-                      borderRadius: svc.radius,
-                      border: "none",
-                      cursor: "pointer",
-                      textAlign: "left",
-                      margin: "0.6rem 0",
-                    }}
-                  >
-                    <span style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                      <span style={{ width: 44, height: 44, borderRadius: "50%", background: svc.badgeBg, color: svc.badgeFg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.04em", flexShrink: 0 }}>
-                        {svc.number}
-                      </span>
-                      <span style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.4rem, 3.6vw, 2.3rem)", color: svc.fg, textTransform: "uppercase", letterSpacing: "0.02em", lineHeight: 1 }}>
-                        {svc.title}
-                      </span>
-                    </span>
-                    <span
-                      className="wh-acc-icon"
-                      style={{ width: 38, height: 38, borderRadius: "50%", background: svc.fg, color: svc.bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontFamily: "'DM Sans', sans-serif", fontSize: "1.5rem", lineHeight: 1 }}
-                    >
-                      +
-                    </span>
-                  </Accordion.Trigger>
-                </Accordion.Header>
-                <Accordion.Content
-                  className="data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up"
-                  style={{ overflow: "hidden" }}
-                >
-                  <div style={{ padding: "1.5rem 1.75rem 2rem", maxWidth: "38rem" }}>
-                    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.05rem", color: `${BLACK}B3`, lineHeight: 1.8, margin: "0 0 1.75rem" }}>
-                      {svc.intro}
-                    </p>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                      {svc.groups.map((group) => (
-                        <div key={group.label ?? "default"}>
-                          {group.label && (
-                            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: PINK, margin: "0 0 0.6rem" }}>
-                              {group.label}
-                            </p>
-                          )}
-                          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                            {group.items.map((item) => (
-                              <p
-                                key={item}
-                                style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: BLACK, margin: 0, padding: "0.55rem 0", borderTop: `1px solid ${BLACK}14`, display: "flex", alignItems: "center", gap: "0.7rem" }}
-                              >
-                                <span style={{ width: 7, height: 7, borderRadius: "50%", background: PINK, flexShrink: 0 }} />
-                                {item}
-                              </p>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
+              <motion.div
+                key={svc.id}
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE }}
+                viewport={{ once: true, amount: 0.15 }}
+                className="grid md:grid-cols-5"
+                style={{ background: svc.bg, color: svc.fg, borderRadius: svc.radius, padding: "clamp(1.75rem,4vw,3rem)", gap: "2rem" }}
+              >
+                <div className="md:col-span-2">
+                  <span style={{ width: 44, height: 44, borderRadius: "50%", background: svc.badgeBg, color: svc.badgeFg, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "0.04em", marginBottom: "1.2rem" }}>
+                    {svc.number}
+                  </span>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: svc.muted, margin: "0 0 0.7rem" }}>
+                    {svc.tag}
+                  </p>
+                  <h3 style={{ fontFamily: "'Oswald', sans-serif", fontWeight: 700, fontSize: "clamp(1.8rem, 3.4vw, 2.6rem)", color: svc.fg, textTransform: "uppercase", letterSpacing: "0.02em", lineHeight: 1, margin: "0 0 1rem" }}>
+                    {svc.title}
+                  </h3>
+                  <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.02rem", color: svc.muted, lineHeight: 1.7, margin: 0 }}>
+                    {svc.intro}
+                  </p>
+                </div>
+
+                <div className="md:col-span-3" style={{ display: "flex", flexDirection: "column", gap: "1.4rem" }}>
+                  {svc.groups.map((group) => (
+                    <div key={group.label ?? "default"}>
+                      {group.label && (
+                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: svc.fg, margin: "0 0 0.4rem" }}>
+                          {group.label}
+                        </p>
+                      )}
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        {group.items.map((item) => (
+                          <p
+                            key={item}
+                            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "0.98rem", color: svc.muted, margin: 0, padding: "0.55rem 0", borderTop: `1px solid ${svc.line}`, display: "flex", alignItems: "center", gap: "0.7rem" }}
+                          >
+                            <span style={{ width: 7, height: 7, borderRadius: "50%", background: svc.fg, flexShrink: 0 }} />
+                            {item}
+                          </p>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </Accordion.Content>
-              </Accordion.Item>
+                  ))}
+                </div>
+              </motion.div>
             ))}
-          </Accordion.Root>
-        </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* ── How it works + not-for-me note ── */}

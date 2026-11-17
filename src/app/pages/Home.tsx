@@ -26,22 +26,22 @@ const SERVICES_DATA = [
     id: "plan",
     number: "01",
     title: "Marketing Strategy & Planning",
-    text: "Marketing strategy built around your business, so you grow and show up in the right places, not everywhere.",
-    includes: "Strategy & planning · Audience & competitor research",
+    text: "Marketing strategy built around your business, so you grow and show up in the right places, not everywhere. I also work out what to spend and what to expect back.",
+    includes: "Strategy & planning · Audience & competitor research · Budgeting & forecasting · Part-time marketing lead",
   },
   {
-    id: "found",
+    id: "search",
     number: "02",
-    title: "Local SEO Optimisation & Search Visibility",
-    text: "When someone nearby searches for what you do, your business shows up. I help make sure you're easy to find and easy to choose.",
-    includes: "Google Business Profile · Local SEO · Local keyword research · Search visibility audits · on page SEO",
+    title: "Paid Search",
+    text: "When someone searches for what you do, your ad is right there. I plan, set up and run Google Responsive Search campaigns built to bring in calls, enquiries and bookings, not just clicks.",
+    includes: "Google Responsive Search Ads (PPC) · Keyword research · Search term reviews · Landing page briefs & conversion audits",
   },
   {
-    id: "campaigns",
+    id: "social",
     number: "03",
-    title: "Paid Search + Paid Social",
-    text: "I plan, set up and run your campaigns from first idea to launch to results. Built to bring in leads, sales and bookings, not just clicks.",
-    includes: "Meta (Facebook & Instagram) & Google responsive search Ads · Ad creative direction · Lead capture & landing pages · Campaign tracking & reporting",
+    title: "Paid Social",
+    text: "I plan, set up and run your Meta campaigns from first idea to launch to results. Built to put you in front of the right people and bring in leads and sales, not just likes.",
+    includes: "Meta (Facebook & Instagram) campaigns · Audience analysis · Ad creative direction · Lead capture & follow-up · Brand campaigns",
   },
   {
     id: "numbers",
@@ -881,7 +881,7 @@ export default function Home() {
             <span style={{ color: ACCENT }}>for your business.</span>
           </h2>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "1.1rem", color: `${CREAM}B3`, lineHeight: 1.7, margin: "0 0 3.5rem", maxWidth: "560px" }}>
-            No messing around. A plan that fits, a business that gets found, campaigns that bring in enquiries, and full control of your ad spend.
+            No messing around. A plan that fits, search and social campaigns that bring in enquiries, and full control of your ad spend.
           </p>
 
           <div className="grid sm:grid-cols-2" style={{ gap: "1.5rem" }}>
